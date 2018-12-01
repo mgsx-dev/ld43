@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="left-down" width="8" height="6" tilewidth="128" tileheight="128" nextobjectid="76">
+ <tileset firstgid="1" name="tileset" tilewidth="128" tileheight="128" tilecount="289" columns="8">
+  <image source="tileset.png" width="1024" height="1024"/>
+ </tileset>
+ <tileset firstgid="290" name="tileset" tilewidth="128" tileheight="128" tilecount="64" columns="8">
+  <image source="tileset.png" width="1024" height="1024"/>
+ </tileset>
+ <imagelayer name="Image Layer 1" offsetx="-47.5455" offsety="-274.333">
+  <image source="tileset.png" width="1024" height="1024"/>
+ </imagelayer>
+ <objectgroup name="Object Layer 1">
+  <object id="1" gid="18" x="77" y="743" width="128" height="128"/>
+  <object id="2" gid="19" x="200" y="742.333" width="128" height="128"/>
+  <object id="3" gid="20" x="321" y="743" width="128" height="128"/>
+  <object id="4" gid="21" x="448.969" y="743.196" width="128" height="128"/>
+  <object id="6" gid="11" x="200.667" y="621" width="128" height="128"/>
+  <object id="7" gid="3" x="201" y="495" width="128" height="128"/>
+  <object id="8" gid="9" x="-17" y="634" width="128" height="128"/>
+  <object id="9" gid="13" x="450" y="625" width="128" height="128"/>
+  <object id="74" gid="22" x="13.3333" y="715.333" width="128" height="128"/>
+ </objectgroup>
+ <objectgroup name="Object Layer 2">
+  <object id="52" gid="6" x="476.667" y="567" width="128" height="128"/>
+  <object id="53" gid="7" x="213" y="388" width="128" height="128"/>
+  <object id="54" gid="14" x="282" y="465" width="128" height="128"/>
+  <object id="55" gid="6" x="304" y="631" width="128" height="128"/>
+  <object id="56" gid="8" x="460" y="660" width="128" height="128"/>
+  <object id="57" gid="22" x="50" y="737" width="128" height="128"/>
+  <object id="58" gid="8" x="167" y="758" width="128" height="128"/>
+  <object id="59" gid="8" x="294" y="735" width="128" height="128"/>
+  <object id="60" gid="8" x="390" y="723" width="128" height="128"/>
+ </objectgroup>
+ <objectgroup name="Object Layer 3">
+  <object id="61" gid="15" x="426" y="633" width="128" height="128"/>
+  <object id="62" gid="15" x="16" y="738.667" width="128" height="128"/>
+  <object id="63" gid="15" x="172" y="695" width="128" height="128"/>
+  <object id="64" gid="15" x="290" y="750" width="128" height="128"/>
+  <object id="65" gid="6" x="76" y="631" width="128" height="128"/>
+  <object id="66" gid="16" x="170" y="619" width="128" height="128"/>
+  <object id="67" gid="24" x="399.333" y="532.667" width="128" height="128"/>
+  <object id="68" gid="23" x="-23.3333" y="608.667" width="128" height="128"/>
+  <object id="70" gid="3" x="199" y="268" width="128" height="128"/>
+  <object id="71" gid="5" x="131" y="471" width="128" height="128"/>
+  <object id="72" gid="5" x="130" y="294" width="128" height="128"/>
+  <object id="75" gid="305" x="212" y="316" width="128" height="128"/>
+ </objectgroup>
+</map>

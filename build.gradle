@@ -96,6 +96,7 @@ project(":core") {
 
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+        compile "com.badlogicgames.ashley:ashley:$ashleyVersion"
         
         testCompile "junit:junit:$junitVersion"
         testCompile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"

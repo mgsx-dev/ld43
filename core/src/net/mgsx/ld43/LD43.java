@@ -1,24 +1,19 @@
 package net.mgsx.ld43;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.Game;
 
-public class LD43 extends ApplicationAdapter {
-	
-	
-	@Override
-	public void create () {
-		// TODO create
-	}
+import net.mgsx.ld43.screens.GameScreen;
+
+public class LD43 extends Game{
+
+	public static final int SCREEN_WIDTH = 1024;
+	public static final int SCREEN_HEIGHT = 512;
 
 	@Override
-	public void render () {
+	public void create() {
 		
-		Gdx.gl.glClearColor(0, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		setScreen(new GameScreen());
 		
-		// TODO draw
 	}
-	
+
 }
