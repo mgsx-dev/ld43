@@ -2,6 +2,7 @@ package net.mgsx.ld43;
 
 import com.badlogic.gdx.Game;
 
+import net.mgsx.ld43.assets.GameAssets;
 import net.mgsx.ld43.screens.GameScreen;
 
 public class LD43 extends Game{
@@ -11,6 +12,7 @@ public class LD43 extends Game{
 
 	@Override
 	public void create() {
+		GameAssets.i = new GameAssets();
 		
 		setScreen(new GameScreen());
 		

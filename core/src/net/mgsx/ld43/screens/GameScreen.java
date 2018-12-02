@@ -3,24 +3,13 @@ package net.mgsx.ld43.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
@@ -30,16 +19,18 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import net.mgsx.ld43.LD43;
+import net.mgsx.ld43.assets.GameAssets;
 import net.mgsx.ld43.model.Canon;
+import net.mgsx.ld43.model.Shark;
+import net.mgsx.ld43.model.Ship;
+import net.mgsx.ld43.model.ShipPart;
 import net.mgsx.ld43.utils.BlinkAction;
-import net.mgsx.ld43.utils.FloattingAction;
 import net.mgsx.ld43.utils.StageScreen;
 import net.mgsx.ld43.utils.ThrowAction;
-import net.mgsx.ld43.utils.WaterAction;
 
 public class GameScreen extends StageScreen
 {
-	private static final boolean drawDebug = false;
+	private static final boolean drawDebug = true;
 
 	private Vector2 targetFrom = new Vector2();
 	private Vector2 targetTo = new Vector2();
@@ -49,17 +40,17 @@ public class GameScreen extends StageScreen
 	
 	private ShapeRenderer renderer;
 	
-	private Group shipGround = new Group();
-	private Animation<TextureRegion> sharkAnimation;
-	
-	private float sharkTime;
-	private Image imgShark;
-	
 	private Actor shootingCanon;
 	
-	private Array<Image> canons = new Array<Image>();
+	private Shark shark;
 	
-	private Animation<TextureRegion> canonAnim;
+	private Circle dropCircle = new Circle();
+
+	private Ship ship;
+	
+	private Scroller waterBgScroller, waterFgScroller, earthScroller, skyScroller;
+	
+	private Array<Scroller> scrollers = new Array<Scroller>();
 	
 	public GameScreen() {
 		
@@ -67,126 +58,39 @@ public class GameScreen extends StageScreen
 		
 		renderer = new ShapeRenderer();
 		
-		// convert ship to actors
-		TiledMap shipMap = new TmxMapLoader().load("../../assets/src/ship.tmx");
-		
-		Array<TiledMapTileMapObject> mos = new Array<TiledMapTileMapObject>();
-		for(MapLayer layer : shipMap.getLayers()){
-			if(layer.isVisible()) // XXX
-				mos.addAll(layer.getObjects().getByType(TiledMapTileMapObject.class));
-		}
-	
+		ship = new Ship();
+		Actor shipGround = ship.create();
+		ship.setBase(stage.getViewport().getWorldWidth() - ship.r.width * 1.3f, 140); 
 		
 		
-		shipGround.addAction(new FloattingAction());
+		stage.addActor(skyScroller = new Scroller(GameAssets.i.regionSky));
+		skyScroller.setY(600);
+		skyScroller.speedFactor = .1f;
+		skyScroller.speedBase = .03f;
 		
-		Rectangle r = new Rectangle();
+		stage.addActor(earthScroller = new Scroller(GameAssets.i.regionIsland));
+		earthScroller.setY(100);
+		earthScroller.speedFactor = .3f;
+		earthScroller.speedBase = 0f;
 		
-		Texture bgTexture = new Texture(Gdx.files.local("../../assets/src/background.png"));
-		Texture sharkTexture = new Texture(Gdx.files.local("../../assets/src/shark.png"));
-
-		Array<TextureRegion> frames = new Array<TextureRegion>();
-		for(int i=0 ; i<4 ; i++){
-			final TextureRegion reg = new TextureRegion(mos.get(0).getTextureRegion().getTexture(),  128 * i, 1024 - 128 * 5, 128, 128);
-			frames.add(reg);
-		}
-		
-		
-		canonAnim = new Animation<TextureRegion>(1, frames);
-		
-		
-
-		
-		TextureRegion regionWater = new TextureRegion(bgTexture, 0, 1024 - 128 * 5, 1024, 128 * 2);
-		TextureRegion regionIsland = new TextureRegion(bgTexture, 0, 1024 - 128 * 3, 1024, 128 * 3);
-		TextureRegion regionSky = new TextureRegion(bgTexture, 0, 1024 - 128 * 8, 1024, 128 * 3);
-
-		for(int i=0 ; i<3 ; i++){
-			Image imgWater = new Image(new TextureRegionDrawable(regionSky));
-			imgWater.setTouchable(Touchable.disabled);
-			stage.addActor(imgWater);
-			imgWater.setX(i * imgWater.getWidth());
-			imgWater.setY(600);
-			imgWater.addAction(new WaterAction(.1f)); 
-		}
-		
-		for(int i=0 ; i<3 ; i++){
-			Image imgWater = new Image(new TextureRegionDrawable(regionIsland));
-			imgWater.setTouchable(Touchable.disabled);
-			stage.addActor(imgWater);
-			imgWater.setX(i * imgWater.getWidth());
-			imgWater.setY(100);
-			imgWater.addAction(new WaterAction(.3f)); 
-		}
+		stage.addActor(waterBgScroller = new Scroller(GameAssets.i.regionWater, Color.GRAY));
+		waterBgScroller.setY(-40);
+		waterBgScroller.speedFactor = 2f;
+		waterBgScroller.speedBase = .1f;
 		
 		stage.addActor(shipGround);
 		
-		for(int i=0 ; i<3 ; i++){
-			Image imgWater = new Image(new TextureRegionDrawable(regionWater));
-			imgWater.setTouchable(Touchable.disabled);
-			stage.addActor(imgWater);
-			imgWater.setColor(Color.GRAY);
-			imgWater.setX(i * imgWater.getWidth());
-			imgWater.setY(-40);
-			imgWater.addAction(new WaterAction(2f)); 
-		}
+		shark = new Shark();
+		stage.addActor(shark.create());
 		
-		Array<TextureRegion> keyFrames = new Array<TextureRegion>();
-		keyFrames.add(new TextureRegion(sharkTexture, 0, 1024 - 128 * 3, 1024, 128 * 3));
-		keyFrames.add(new TextureRegion(sharkTexture, 0, 1024 - 128 * 6, 1024, 128 * 3));
-		keyFrames.add(new TextureRegion(sharkTexture, 0, 1024 - 128 * 8, 1024, 128 * 2));
+		stage.addActor(waterFgScroller = new Scroller(GameAssets.i.regionWater, new Color(1,1,1,.7f)));
+		waterFgScroller.setY(0);
+		waterFgScroller.speedFactor = 3f;
+		waterFgScroller.speedBase = .2f;
 		
-		sharkAnimation = new Animation<TextureRegion>(1, keyFrames);
-		
-		TextureRegion regionShark = new TextureRegion(sharkTexture, 0, 1024 - 128 * 3, 1024, 128 * 3);
-		
-		imgShark = new Image(new TextureRegionDrawable(regionShark));
-		imgShark.setTouchable(Touchable.disabled);
-		stage.addActor(imgShark);
-		imgShark.setOrigin(Align.center);
-		imgShark.addAction(new FloattingAction());
-		
-		for(int j=0 ; j< 1 ; j++){
-			for(int i=0 ; i<3 ; i++){
-				Image imgWater = new Image(new TextureRegionDrawable(regionWater));
-				imgWater.setTouchable(Touchable.disabled);
-				stage.addActor(imgWater);
-				imgWater.getColor().a = 0.7f;
-				imgWater.setX(i * imgWater.getWidth());
-				imgWater.addAction(new WaterAction(3f)); 
-			}
-		}
-		
-		
-		final TextureRegion regionBullet = new TextureRegion(mos.get(0).getTextureRegion().getTexture(),  128 * 4, 1024 - 128 * 5, 128, 128);
-		
-		TextureRegion regionBoatBase = new TextureRegion(mos.get(0).getTextureRegion().getTexture(), 0, 1024 - 128 * 4, 128 * 5, 128 * 4);
-		{
+		for(ShipPart part : ship.parts){
 			
-			Image img = new Image(new TextureRegionDrawable(regionBoatBase));
-			img.setPosition(-50, 20); // XXX 
-			img.setOrigin(Align.center);
-			shipGround.addActor(img);
-		}
-		
-		for(TiledMapTileMapObject mo : mos){
-			
-			TextureRegion region = mo.getTextureRegion();
-			Image img = new Image(new TextureRegionDrawable(region));
-			img.setPosition(mo.getX(), mo.getY());
-			img.setOrigin(Align.center);
-			shipGround.addActor(img);
-			
-			r.merge(img.getX(), img.getY());
-			r.merge(img.getX(Align.right), img.getY(Align.bottom));
-			
-			if("canon".equals(mo.getName())){
-				img.setUserObject(new Canon());
-				
-				canons.add(img);
-			}
-			
-			img.addListener(new DragListener(){
+			part.img.addListener(new DragListener(){
 				
 				@Override
 				public void dragStart(InputEvent event, float x, float y, int pointer) {
@@ -199,6 +103,7 @@ public class GameScreen extends StageScreen
 						Canon canon = (Canon)actor.getUserObject();
 						if(canon.charged()){
 							shootingCanon = actor;
+							canon.targetting = true;
 						}
 					}
 					if(shootingCanon == null){
@@ -223,9 +128,14 @@ public class GameScreen extends StageScreen
 					
 					if(shootingCanon != null){
 						
-						Image bullet = new Image(new TextureRegionDrawable(regionBullet));
+						((Canon)shootingCanon.getUserObject()).shoot();
+						
+						Image bullet = new Image(new TextureRegionDrawable(GameAssets.i.regionBullet));
 						bullet.setPosition(targetFrom.x, targetFrom.y);
 						bullet.setOrigin(Align.center);
+						
+						ShipPart part = ShipPart.bullet();
+						bullet.setUserObject(part);
 						
 						shootingCanon = null;
 						targetActor = bullet;
@@ -257,58 +167,56 @@ public class GameScreen extends StageScreen
 			});
 		}
 		
-		shipGround.setPosition(stage.getViewport().getWorldWidth() - r.width * 1.3f, 140);
-
-		shipGround.setOrigin(r.x + r.width/2, r.y+r.height);
-		
 		// stage.setDebugAll(true);
+		
+		scrollers.addAll(waterBgScroller, waterFgScroller, earthScroller, skyScroller);
 	}
 	
-	private Circle circleShaper = new Circle();
-	private Circle dropCircle = new Circle();
 	
 	@Override
 	public void render(float delta) {
 		
-		for(Image canon : canons){
-			Canon model = (Canon)canon.getUserObject();
-			model.update(delta);
-			if(canon != shootingCanon){
-				float s = 10;
-				if(canon.getRotation() < 0){
-					canon.setRotation(MathUtils.lerp(canon.getRotation(), 0, delta * s));
-				}else{
-					canon.setRotation(MathUtils.lerp(canon.getRotation(), 360, delta * s));
-				}
-				canon.setScale(1);
-			}else{
-				canon.setScale(2);
-				((TextureRegionDrawable)canon.getDrawable()).setRegion(canonAnim.getKeyFrame(model.frameTime, true));
-			}
+		for(Scroller scroller : scrollers){
+			
+			scroller.speedTransition = 1; // TODO set depends on arriving island ....
+			
+			scroller.update(delta);
 		}
 		
-		sharkTime += delta * 10;
-		((TextureRegionDrawable)imgShark.getDrawable()).setRegion(sharkAnimation.getKeyFrame(sharkTime, true));
-		// imgShark.setDrawable(new D);
+		for(Canon model : ship.canons){
+			model.update(delta);
+		}
 		
-		circleShaper.set(imgShark.getX() + 780,  imgShark.getY() + 180, 160);
+		shark.update(delta);
+		ship.update(delta);
+		
+		// TODO proximity whith ship ...
+		
 		
 		if(dropActor != null){
 			dropCircle.set(dropActor.getX() + dropActor.getWidth()/2,  dropActor.getY() + dropActor.getHeight()/2, dropActor.getWidth() * .8f);
-			if(circleShaper.overlaps(dropCircle)){
+			if(shark.circleShaper.overlaps(dropCircle)){
 				// TODO hurt
 				dropActor.clearActions();
 				dropActor.addAction(new ThrowAction(-800, 300, -100, 730));
 				dropActor.addAction(Actions.sequence(Actions.parallel(Actions.alpha(0, .5f, Interpolation.pow3In), Actions.scaleTo(3, 3, .5f)), Actions.removeActor()));
+			
+				shark.hurted((ShipPart) dropActor.getUserObject());
 			}
 		}
 		
-		float attackTime = sharkTime * .2f;
-		if(attackTime % 4f > 2f){
-			imgShark.setPosition(MathUtils.lerp(0, 500, MathUtils.sin(attackTime)), 0);
-		}else{
-			imgShark.setPosition(MathUtils.lerp(0, 10, MathUtils.sin(attackTime)), 0);
+		
+		if(ship.leftPart != null && !shark.attacking && !shark.stunt){
+			if(shark.circleShaper.x + shark.circleShaper.radius > ship.leftPart.img.getX() + ship.shipGround.getX() + 200){
+				
+				shark.attack();
+				
+				stage.addActor(ship.ejectPart());
+			}
 		}
+		
+		// TODO check ship dead or shark dead ...
+		
 		
 		Gdx.gl.glClearColor(.7f, .9f, .95f, 0);
 		// Gdx.gl.glClearColor(0, 0, 0, 0);
@@ -337,7 +245,7 @@ public class GameScreen extends StageScreen
 				
 			}
 			
-			renderer.circle(circleShaper.x, circleShaper.y, circleShaper.radius, 16);
+			renderer.circle(shark.circleShaper.x, shark.circleShaper.y, shark.circleShaper.radius, 16);
 			
 			renderer.end();
 		}
