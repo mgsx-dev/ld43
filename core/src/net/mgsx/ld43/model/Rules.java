@@ -3,11 +3,11 @@ package net.mgsx.ld43.model;
 public class Rules {
 
 	public static final int CANON_COUNT = 3;
-	public static final float CANON_CHARGE_TIME = 15;
+	public static final float CANON_CHARGE_TIME = 8;
 	
 	public static final float MIN_SHOOT_TIME = CANON_CHARGE_TIME / CANON_COUNT;
 	
-	public static final int SHARK_LIFE_BASE = 1; // XXX 30;
+	public static final int SHARK_LIFE_BASE = 30; // XXX 30;
 	
 	public static void configurePart(ShipPart part, String name){
 		

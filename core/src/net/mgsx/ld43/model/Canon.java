@@ -23,7 +23,7 @@ public class Canon extends ShipPart
 		
 		if(!shooting){
 			
-			chargeTime += delta * .3f;
+			chargeTime += delta / Rules.CANON_CHARGE_TIME;
 			chargeTime = Math.min(1, chargeTime);
 			
 			if(charged() && !idle){

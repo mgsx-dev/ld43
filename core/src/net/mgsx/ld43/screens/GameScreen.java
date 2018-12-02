@@ -190,9 +190,10 @@ public class GameScreen extends StageScreen
 						targetActor.setUserObject(dragPart);
 						targetActor.setOrigin(Align.center);
 						ship.shipGround.addActor(targetActor);
+						
+						dragPart.disabled = true;
 					}
 					
-					dragPart.disabled = true;
 
 					targetActor.clearActions();
 					targetActor.setColor(Color.WHITE);
