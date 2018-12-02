@@ -1,5 +1,6 @@
 package net.mgsx.ld43.model;
 
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class ShipPart {
@@ -12,6 +13,7 @@ public class ShipPart {
 	public boolean disabled;
 	
 	public float baseX, baseY;
+	public String name;
 
 	public static ShipPart bullet() {
 		ShipPart p = new ShipPart();
@@ -22,6 +24,6 @@ public class ShipPart {
 	
 	public void restore(){
 		img.setPosition(baseX, baseY);
-		
+		img.setTouchable(Touchable.enabled);
 	}
 }

@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -35,13 +36,21 @@ public class Ship {
 	private float baseX;
 
 	private float baseY;
+
+	public float endFactor;
+
+	private FloattingAction floatAction;
+
+	private boolean disabled;
+
+	public boolean isDead;
 	
 	public Ship() {
 		Array<TiledMapTileMapObject> mos = new Array<TiledMapTileMapObject>();
 		for(MapLayer layer : GameAssets.i.shipMap.getLayers()){
-			if(layer.isVisible()){ // XXX
+			// if(layer.getName().equals("canons")){ // XXX
 				mos.addAll(layer.getObjects().getByType(TiledMapTileMapObject.class));
-			}
+			// }
 		}
 		
 		shipGround  = new Group();
@@ -64,7 +73,20 @@ public class Ship {
 			img.setOrigin(Align.center);
 			shipGround.addActor(img);
 			
-			ShipPart part = new ShipPart();
+			ShipPart part;
+			
+			if("canon".equals(mo.getName())){
+				Canon canon = new Canon();
+				canon.img = img;
+				canons.add(canon);
+				part = canon;
+			}else{
+				part = new ShipPart();
+			}
+			
+			Rules.configurePart(part, mo.getName());
+			part.name = mo.getName();
+			
 			part.baseX = mo.getX();
 			part.baseY = mo.getY();
 			
@@ -76,18 +98,12 @@ public class Ship {
 			r.merge(img.getX(), img.getY());
 			r.merge(img.getX(Align.right), img.getY(Align.bottom));
 			
-			if("canon".equals(mo.getName())){
-				Canon canon = new Canon();
-				canon.img = img;
-				img.setUserObject(canon);
-				
-				canons.add(canon);
-			}
+			
 		}
 		
 		shipGround.setOrigin(r.x + r.width/2, r.y+r.height);
 		
-		shipGround.addAction(new FloattingAction());
+		shipGround.addAction(floatAction = new FloattingAction());
 	}
 
 	public Actor create() {
@@ -112,6 +128,21 @@ public class Ship {
 			}
 		}
 		
+		floatAction.amp = MathUtils.lerp(3, 0, endFactor);
+		
+		shipGround.setRotation(MathUtils.lerp(shipGround.getRotation(), 20f, endFactor));
+		
+		shipGround.setPosition(
+				MathUtils.lerp(shipGround.getX(), 700, endFactor), 
+				baseY);
+		
+		isDead = true;
+		for(ShipPart part : parts){
+			if(!part.disabled){
+				isDead = false;
+				break;
+			}
+		}
 	}
 
 	public void setBase(float x, float y) {
@@ -124,6 +155,8 @@ public class Ship {
 		leftPart.img.setPosition(p.x, p.y);
 		Image img = leftPart.img;
 		
+		img.setTouchable(Touchable.disabled);
+		
 		leftPart.disabled = true;
 		leftPart = null;
 		
@@ -131,6 +164,27 @@ public class Ship {
 		img.addAction(Actions.sequence(Actions.parallel(new ThrowAction(900, 1600, 4500, 720)), Actions.removeActor()));
 		
 		return img;
+	}
+
+	public void disable() {
+		disabled = true;
+		shipGround.setTouchable(Touchable.disabled);
+		for(Canon canon : canons){
+			canon.idle();
+		}
+	}
+
+	public void enable() {
+		disabled = false;
+		shipGround.setTouchable(Touchable.enabled);
+		for(Canon canon : canons){
+			canon.activate();
+		}
+		endFactor = 0;
+	}
+
+	public void restorePart(ShipPart part) {
+		part.restore();
 	}
 	
 	

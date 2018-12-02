@@ -21,13 +21,17 @@ public class Shark {
 	
 	private float stuntTime;
 	
-	private float offsetX;
+	private float offsetX = -2000;
+	private float offsetY;
+	
 	public boolean attacking;
 	private float attackTime;
 	
-	public float sharkLifeMax = 30;
+	public float sharkLifeMax = Rules.SHARK_LIFE_BASE;
 	public float sharkLife = sharkLifeMax;
 	public float sharkLifeSmooth;
+	
+	private float preRun = 3f;
 
 	public Image create(){
 		imgShark = new Image();
@@ -54,7 +58,9 @@ public class Shark {
 	
 	public void update(float delta)
 	{
-		sharkLifeSmooth = MathUtils.lerp(sharkLifeSmooth, sharkLife, delta * .3f);
+		preRun -= delta;
+		
+		sharkLifeSmooth = MathUtils.lerp(sharkLifeSmooth, sharkLife, delta * 3f);
 		
 		sharkTime += delta * 10;
 		
@@ -62,7 +68,16 @@ public class Shark {
 		
 		circleShaper.set(imgShark.getX() + 780,  imgShark.getY() + 180, 160);
 
-		if(stunt){
+		if(preRun > 0){
+			offsetX = MathUtils.lerp(offsetX, 0, delta);
+		}
+		else if(sharkLife <= 0){
+			imgShark.clearActions();
+			setFrame(2);
+			offsetX -= delta * 500;
+			offsetY -= delta * 100;
+		}
+		else if(stunt){
 			setFrame(0);
 			offsetX -= delta * 300;
 			stuntTime -= delta;
@@ -83,8 +98,10 @@ public class Shark {
 		}
 		imgShark.setX(offsetX + MathUtils.lerp(
 				-100, 
-				400 + 300, // XXX debug + 300 
+				400 + 500, // XXX debug + 500 
 				MathUtils.sin(hMotion)));
+		
+		imgShark.setY(offsetY);
 		
 		
 //		float attackTime = sharkTime * .2f;

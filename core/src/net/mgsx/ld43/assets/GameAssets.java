@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 
 public class GameAssets {
@@ -28,8 +29,20 @@ public class GameAssets {
 	public TextureRegion regionIsland;
 	public TextureRegion regionSky; 
 	
+	public Skin skin;
+
+
+	private Texture bgTexture2;
+
+	public TextureRegion regionIslandEnd;
+
+
+	public Texture prelevelTexture;
+	
 	public GameAssets() 
 	{
+		skin = new Skin(Gdx.files.internal("skins/game-skin.json"));
+		
 		shipMap = new TmxMapLoader().load("../../assets/src/ship.tmx");
 
 		Texture tilesetTexture = shipMap.getTileSets().getTileSet(0).iterator().next().getTextureRegion().getTexture();
@@ -62,10 +75,18 @@ public class GameAssets {
 
 		bgTexture = new Texture(Gdx.files.local("../../assets/src/background.png"));
 
+
 		
 		regionWater = new TextureRegion(bgTexture, 0, 1024 - 128 * 5, 1024, 128 * 2);
 		regionIsland = new TextureRegion(bgTexture, 0, 1024 - 128 * 3, 1024, 128 * 3);
 		regionSky = new TextureRegion(bgTexture, 0, 1024 - 128 * 8, 1024, 128 * 3);
+		
+		
+		bgTexture2 = new Texture(Gdx.files.local("../../assets/src/background2.png"));
+
+		regionIslandEnd = new TextureRegion(bgTexture2, 0, 1024 - 128 * 6, 1024, 128 * 6);
+		
+		prelevelTexture = new Texture(Gdx.files.local("../../assets/src/prelevel.png"));
 
 	}
 }

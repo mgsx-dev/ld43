@@ -5,6 +5,8 @@ public class MetaGame {
 
 	public Ship ship;
 	
-	public int level;
+	public int level = 1;
+
+	public int credits = 0;
 	
 }

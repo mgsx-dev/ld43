@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -24,13 +25,14 @@ import net.mgsx.ld43.model.Canon;
 import net.mgsx.ld43.model.Shark;
 import net.mgsx.ld43.model.Ship;
 import net.mgsx.ld43.model.ShipPart;
+import net.mgsx.ld43.ui.GameUI;
 import net.mgsx.ld43.utils.BlinkAction;
 import net.mgsx.ld43.utils.StageScreen;
 import net.mgsx.ld43.utils.ThrowAction;
 
 public class GameScreen extends StageScreen
 {
-	private static final boolean drawDebug = true;
+	private static final boolean drawDebug = false;
 
 	private Vector2 targetFrom = new Vector2();
 	private Vector2 targetTo = new Vector2();
@@ -42,7 +44,7 @@ public class GameScreen extends StageScreen
 	
 	private Actor shootingCanon;
 	
-	private Shark shark;
+	public Shark shark;
 	
 	private Circle dropCircle = new Circle();
 
@@ -51,6 +53,12 @@ public class GameScreen extends StageScreen
 	private Scroller waterBgScroller, waterFgScroller, earthScroller, skyScroller;
 	
 	private Array<Scroller> scrollers = new Array<Scroller>();
+
+	private GameUI gameUI;
+	
+	private Vector2 shootVector = new Vector2();
+
+	private Image imgIslandEnd;
 	
 	public GameScreen() {
 		
@@ -58,7 +66,13 @@ public class GameScreen extends StageScreen
 		
 		renderer = new ShapeRenderer();
 		
-		ship = new Ship();
+		if(LD43.i().metagame.ship == null){
+			ship = LD43.i().metagame.ship = new Ship();
+		}else{
+			ship = LD43.i().metagame.ship;
+			ship.enable();
+		}
+		
 		Actor shipGround = ship.create();
 		ship.setBase(stage.getViewport().getWorldWidth() - ship.r.width * 1.3f, 140); 
 		
@@ -72,6 +86,11 @@ public class GameScreen extends StageScreen
 		earthScroller.setY(100);
 		earthScroller.speedFactor = .3f;
 		earthScroller.speedBase = 0f;
+		
+		
+		imgIslandEnd = new Image(GameAssets.i.regionIslandEnd);
+		stage.addActor(imgIslandEnd);
+		
 		
 		stage.addActor(waterBgScroller = new Scroller(GameAssets.i.regionWater, Color.GRAY));
 		waterBgScroller.setY(-40);
@@ -120,11 +139,14 @@ public class GameScreen extends StageScreen
 						float angle = targetTo.cpy().sub(targetFrom).angle() + 180 - shootingCanon.getParent().getRotation(); // XXX optim cpy
 						shootingCanon.setRotation(angle * 1f);
 					}
-					
 				}
 				@Override
 				public void dragStop(InputEvent event, float x, float y, int pointer) {
 					// Actor actor = event.getListenerActor();
+					
+					// max force at 1
+					float force = 3000;
+					
 					
 					if(shootingCanon != null){
 						
@@ -141,12 +163,8 @@ public class GameScreen extends StageScreen
 						targetActor = bullet;
 					}
 					
-					float dx = targetTo.x - targetFrom.x;
-					float dy = targetTo.y - targetFrom.y;
-					float s = 10;
-					dx *= s;
-					dy *= s;
-					
+					((ShipPart)targetActor.getUserObject()).disabled = true;
+
 					targetActor.clearActions();
 					targetActor.setColor(Color.WHITE);
 					targetActor.setScale(1.5f); // XXX
@@ -161,7 +179,7 @@ public class GameScreen extends StageScreen
 					dropActor.clearListeners();
 					
 					dropActor.addAction(Actions.sequence(
-							new ThrowAction(dx, dy, 5000f, 720)
+							new ThrowAction(shootVector.x * force, shootVector.y * force, 5000f, 720)
 							));
 				}
 			});
@@ -170,15 +188,19 @@ public class GameScreen extends StageScreen
 		// stage.setDebugAll(true);
 		
 		scrollers.addAll(waterBgScroller, waterFgScroller, earthScroller, skyScroller);
+		
+		stage.addActor(gameUI = new GameUI(this));
+		
 	}
 	
+	private float worldSpeedFactor = 1;
 	
 	@Override
 	public void render(float delta) {
 		
 		for(Scroller scroller : scrollers){
 			
-			scroller.speedTransition = 1; // TODO set depends on arriving island ....
+			scroller.speedTransition = worldSpeedFactor; // TODO set depends on arriving island ....
 			
 			scroller.update(delta);
 		}
@@ -190,8 +212,36 @@ public class GameScreen extends StageScreen
 		shark.update(delta);
 		ship.update(delta);
 		
-		// TODO proximity whith ship ...
+		if(shark.sharkLife <= 0){
+			
+			gameUI.launchPickup();
+			
+			worldSpeedFactor -= delta / 5f; // 5 seconds to stop
+			worldSpeedFactor = Math.max(0, worldSpeedFactor);
+			
+			ship.endFactor = Interpolation.pow2Out.apply(1 - worldSpeedFactor);
+			
+			ship.disable();
+		}
+		else if(ship.isDead){
+			
+			imgIslandEnd.remove();
+			
+			worldSpeedFactor -= delta / 5f; // 5 seconds to stop
+			if(worldSpeedFactor < 0){
+				worldSpeedFactor = 0;
+				
+				LD43.i().setScreen(new GameOverScreen());
+			}
+			
+			ship.endFactor = Interpolation.pow2Out.apply(1 - worldSpeedFactor);
+			
+			ship.disable();
+			
+		}
 		
+		
+		imgIslandEnd.setX(MathUtils.lerp(2100 + 300, 1050, ship.endFactor));
 		
 		if(dropActor != null){
 			dropCircle.set(dropActor.getX() + dropActor.getWidth()/2,  dropActor.getY() + dropActor.getHeight()/2, dropActor.getWidth() * .8f);
@@ -202,10 +252,13 @@ public class GameScreen extends StageScreen
 				dropActor.addAction(Actions.sequence(Actions.parallel(Actions.alpha(0, .5f, Interpolation.pow3In), Actions.scaleTo(3, 3, .5f)), Actions.removeActor()));
 			
 				shark.hurted((ShipPart) dropActor.getUserObject());
+				
+				dropActor = null;
 			}
 		}
 		
 		
+		// proximity whith ship ...
 		if(ship.leftPart != null && !shark.attacking && !shark.stunt){
 			if(shark.circleShaper.x + shark.circleShaper.radius > ship.leftPart.img.getX() + ship.shipGround.getX() + 200){
 				
@@ -228,6 +281,17 @@ public class GameScreen extends StageScreen
 			
 			targetFrom.set(targetActor.getWidth()/2, targetActor.getHeight()/2);
 			targetActor.localToStageCoordinates(targetFrom);
+			
+			// TODO 600 is user distancemax for shots
+			shootVector.set(targetTo).sub(targetFrom).scl(1f / 600f);
+			
+			// limit
+			float len = shootVector.len();
+			
+			if(len > 1){
+				len = 1;
+			}
+			shootVector.nor().scl(len);
 		}
 		
 		if(drawDebug){
@@ -238,6 +302,10 @@ public class GameScreen extends StageScreen
 			if(targetActor != null){
 				
 				renderer.line(targetFrom, targetTo);
+				
+				renderer.setColor(Color.RED);
+				renderer.line(targetFrom, shootVector.cpy().scl(600).add(targetFrom)); // XXX cpy
+				renderer.setColor(Color.WHITE);
 			}
 			
 			if(dropActor != null){

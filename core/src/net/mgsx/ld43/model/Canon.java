@@ -1,34 +1,32 @@
 package net.mgsx.ld43.model;
 
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import net.mgsx.ld43.assets.GameAssets;
 
-public class Canon {
+public class Canon extends ShipPart
+{
 	public float chargeTime;
 	public float frameTime;
-	
-	public Image img;
 	
 	public boolean shooting;
 	
 	private float shootTime;
 	
 	public boolean targetting;
+	private boolean idle;
 	
 	public void update(float delta){
 		
 		frameTime += delta;
-		
 		
 		if(!shooting){
 			
 			chargeTime += delta * .3f;
 			chargeTime = Math.min(1, chargeTime);
 			
-			if(charged()){
+			if(charged() && !idle){
 				img.setScale(MathUtils.lerp(1f, 1.5f, MathUtils.sin(frameTime * 10) * .5f + .5f));
 			}else{
 				img.setScale(1);
@@ -65,6 +63,14 @@ public class Canon {
 	}
 
 	public boolean charged() {
-		return true; // chargeTime >= 1;
+		return chargeTime >= 1;
+	}
+
+	public void idle() {
+		idle = true;
+	}
+
+	public void activate() {
+		idle = false;
 	}
 }

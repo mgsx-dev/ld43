@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 public class FloattingAction extends Action
 {
 	private float time;
+	public float amp = 3;
 
 	public FloattingAction() {
 	}
@@ -13,7 +14,6 @@ public class FloattingAction extends Action
 	@Override
 	public boolean act(float delta) {
 		time += delta * 7;
-		float amp = 3;
 		actor.setRotation(15 + MathUtils.lerp(-amp, amp, MathUtils.sin(time) * .5f + .5f));
 		return false;
 	}
