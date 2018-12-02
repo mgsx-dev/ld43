@@ -89,9 +89,9 @@
   <object id="110" gid="5" x="136" y="266.667" width="128" height="128"/>
  </objectgroup>
  <objectgroup name="canons">
-  <object id="117" gid="15" x="460" y="540" width="128" height="128"/>
-  <object id="118" gid="15" x="326.667" y="625.333" width="128" height="128"/>
-  <object id="119" gid="15" x="121.333" y="650.667" width="128" height="128"/>
+  <object id="117" name="canon" gid="15" x="460" y="540" width="128" height="128"/>
+  <object id="118" name="canon" gid="15" x="326.667" y="625.333" width="128" height="128"/>
+  <object id="119" name="canon" gid="15" x="121.333" y="650.667" width="128" height="128"/>
  </objectgroup>
  <objectgroup name="new4">
   <object id="120" gid="345" x="354" y="798" width="128" height="128"/>

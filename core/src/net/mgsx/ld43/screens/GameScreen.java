@@ -30,6 +30,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import net.mgsx.ld43.LD43;
+import net.mgsx.ld43.model.Canon;
 import net.mgsx.ld43.utils.BlinkAction;
 import net.mgsx.ld43.utils.FloattingAction;
 import net.mgsx.ld43.utils.StageScreen;
@@ -38,6 +39,7 @@ import net.mgsx.ld43.utils.WaterAction;
 
 public class GameScreen extends StageScreen
 {
+	private static final boolean drawDebug = false;
 
 	private Vector2 targetFrom = new Vector2();
 	private Vector2 targetTo = new Vector2();
@@ -52,6 +54,12 @@ public class GameScreen extends StageScreen
 	
 	private float sharkTime;
 	private Image imgShark;
+	
+	private Actor shootingCanon;
+	
+	private Array<Image> canons = new Array<Image>();
+	
+	private Animation<TextureRegion> canonAnim;
 	
 	public GameScreen() {
 		
@@ -77,6 +85,15 @@ public class GameScreen extends StageScreen
 		Texture bgTexture = new Texture(Gdx.files.local("../../assets/src/background.png"));
 		Texture sharkTexture = new Texture(Gdx.files.local("../../assets/src/shark.png"));
 
+		Array<TextureRegion> frames = new Array<TextureRegion>();
+		for(int i=0 ; i<4 ; i++){
+			final TextureRegion reg = new TextureRegion(mos.get(0).getTextureRegion().getTexture(),  128 * i, 1024 - 128 * 5, 128, 128);
+			frames.add(reg);
+		}
+		
+		
+		canonAnim = new Animation<TextureRegion>(1, frames);
+		
 		
 
 		
@@ -141,6 +158,8 @@ public class GameScreen extends StageScreen
 		}
 		
 		
+		final TextureRegion regionBullet = new TextureRegion(mos.get(0).getTextureRegion().getTexture(),  128 * 4, 1024 - 128 * 5, 128, 128);
+		
 		TextureRegion regionBoatBase = new TextureRegion(mos.get(0).getTextureRegion().getTexture(), 0, 1024 - 128 * 4, 128 * 5, 128 * 4);
 		{
 			
@@ -161,23 +180,56 @@ public class GameScreen extends StageScreen
 			r.merge(img.getX(), img.getY());
 			r.merge(img.getX(Align.right), img.getY(Align.bottom));
 			
+			if("canon".equals(mo.getName())){
+				img.setUserObject(new Canon());
+				
+				canons.add(img);
+			}
+			
 			img.addListener(new DragListener(){
+				
 				@Override
 				public void dragStart(InputEvent event, float x, float y, int pointer) {
 					Actor actor = event.getListenerActor();
 					targetFrom.set(actor.getX(Align.center), actor.getY(Align.center));
+					
 					targetActor = actor;
-					targetActor.addAction(new BlinkAction(8f));// XXX
+					
+					if(actor.getUserObject() instanceof Canon){
+						Canon canon = (Canon)actor.getUserObject();
+						if(canon.charged()){
+							shootingCanon = actor;
+						}
+					}
+					if(shootingCanon == null){
+						targetActor.addAction(new BlinkAction(8f));// XXX
+					}
+					
 				}
 				@Override
 				public void drag(InputEvent event, float x, float y, int pointer) {
 					Actor actor = event.getListenerActor();
 					
 					actor.localToStageCoordinates(targetTo.set(x, y));
+					if(shootingCanon != null){
+						float angle = targetTo.cpy().sub(targetFrom).angle() + 180 - shootingCanon.getParent().getRotation(); // XXX optim cpy
+						shootingCanon.setRotation(angle * 1f);
+					}
+					
 				}
 				@Override
 				public void dragStop(InputEvent event, float x, float y, int pointer) {
-					Actor actor = event.getListenerActor();
+					// Actor actor = event.getListenerActor();
+					
+					if(shootingCanon != null){
+						
+						Image bullet = new Image(new TextureRegionDrawable(regionBullet));
+						bullet.setPosition(targetFrom.x, targetFrom.y);
+						bullet.setOrigin(Align.center);
+						
+						shootingCanon = null;
+						targetActor = bullet;
+					}
 					
 					float dx = targetTo.x - targetFrom.x;
 					float dy = targetTo.y - targetFrom.y;
@@ -198,7 +250,7 @@ public class GameScreen extends StageScreen
 					
 					dropActor.clearListeners();
 					
-					actor.addAction(Actions.sequence(
+					dropActor.addAction(Actions.sequence(
 							new ThrowAction(dx, dy, 5000f, 720)
 							));
 				}
@@ -217,6 +269,23 @@ public class GameScreen extends StageScreen
 	
 	@Override
 	public void render(float delta) {
+		
+		for(Image canon : canons){
+			Canon model = (Canon)canon.getUserObject();
+			model.update(delta);
+			if(canon != shootingCanon){
+				float s = 10;
+				if(canon.getRotation() < 0){
+					canon.setRotation(MathUtils.lerp(canon.getRotation(), 0, delta * s));
+				}else{
+					canon.setRotation(MathUtils.lerp(canon.getRotation(), 360, delta * s));
+				}
+				canon.setScale(1);
+			}else{
+				canon.setScale(2);
+				((TextureRegionDrawable)canon.getDrawable()).setRegion(canonAnim.getKeyFrame(model.frameTime, true));
+			}
+		}
 		
 		sharkTime += delta * 10;
 		((TextureRegionDrawable)imgShark.getDrawable()).setRegion(sharkAnimation.getKeyFrame(sharkTime, true));
@@ -247,25 +316,31 @@ public class GameScreen extends StageScreen
 
 		super.render(delta);
 		
-		renderer.setProjectionMatrix(stage.getCamera().combined);
-		
-		renderer.begin(ShapeType.Line);
 		if(targetActor != null){
 			
 			targetFrom.set(targetActor.getWidth()/2, targetActor.getHeight()/2);
 			targetActor.localToStageCoordinates(targetFrom);
-
+		}
+		
+		if(drawDebug){
 			
-			renderer.line(targetFrom, targetTo);
+			renderer.setProjectionMatrix(stage.getCamera().combined);
+			
+			renderer.begin(ShapeType.Line);
+			if(targetActor != null){
+				
+				renderer.line(targetFrom, targetTo);
+			}
+			
+			if(dropActor != null){
+				renderer.circle(dropCircle.x, dropCircle.y, dropCircle.radius, 16);
+				
+			}
+			
+			renderer.circle(circleShaper.x, circleShaper.y, circleShaper.radius, 16);
+			
+			renderer.end();
 		}
 		
-		if(dropActor != null){
-			renderer.circle(dropCircle.x, dropCircle.y, dropCircle.radius, 16);
-
-		}
-		
-		renderer.circle(circleShaper.x, circleShaper.y, circleShaper.radius, 16);
-		
-		renderer.end();
 	}
 }

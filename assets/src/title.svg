@@ -44,7 +44,8 @@
        x2="388.57138"
        y2="278.79068"
        gradientUnits="userSpaceOnUse"
-       spreadMethod="reflect" />
+       spreadMethod="reflect"
+       gradientTransform="translate(-1392.8571,12.857143)" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -54,8 +55,8 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.7"
-     inkscape:cx="386.37468"
-     inkscape:cy="528.1835"
+     inkscape:cx="513.73834"
+     inkscape:cy="508.41018"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -89,19 +90,20 @@
        id="rect4190"
        width="1035.7142"
        height="512.85712"
-       x="0"
-       y="25.219303" />
+       x="-1392.8572"
+       y="38.076447" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:180px;line-height:125%;font-family:'Mr Dafoe';-inkscape-font-specification:'Mr Dafoe, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#da9c45;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
-       x="58.57143"
-       y="296.64786"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:179.02915955px;line-height:125%;font-family:'Mr Dafoe';-inkscape-font-specification:'Mr Dafoe, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#da9c45;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="60.606411"
+       y="210.87711"
        id="text6721"
-       sodipodi:linespacing="125%"><tspan
+       sodipodi:linespacing="125%"
+       transform="scale(0.77414893,1.2917411)"><tspan
          sodipodi:role="line"
          id="tspan6723"
-         x="58.57143"
-         y="296.64786">Croque Pirate</tspan></text>
+         x="60.606411"
+         y="210.87711">Pirates Overboard </tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:133.96565247px;line-height:125%;font-family:SudegnakNo2;-inkscape-font-specification:'SudegnakNo2, Medium';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#be4526;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
@@ -115,15 +117,16 @@
          y="431.85086">Ludum Dare 43</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:256.07028198px;line-height:125%;font-family:SudegnakNo2;-inkscape-font-specification:'SudegnakNo2, Medium';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#da9c45;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="86.194313"
-       y="808.78809"
+       style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:190.20428467px;line-height:125%;font-family:SudegnakNo2;-inkscape-font-specification:'SudegnakNo2, Medium';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#da9c45;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="20.453745"
+       y="855.61603"
        id="text6721-4"
-       sodipodi:linespacing="125%"><tspan
+       sodipodi:linespacing="125%"
+       transform="scale(1.1515824,0.86837032)"><tspan
          sodipodi:role="line"
          id="tspan6723-2"
-         x="86.194313"
-         y="808.78809">Croque Pirate</tspan></text>
+         x="20.453745"
+         y="855.61603">Pirates Overboard</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:67.32426453px;line-height:125%;font-family:'Mr Dafoe';-inkscape-font-specification:'Mr Dafoe, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#be4526;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
