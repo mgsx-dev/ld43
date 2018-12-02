@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import net.mgsx.ld43.LD43;
+import net.mgsx.ld43.assets.AudioEngine;
 import net.mgsx.ld43.assets.GameAssets;
 import net.mgsx.ld43.utils.StageScreen;
 
@@ -40,6 +41,8 @@ public class PreLevelScreen extends StageScreen
 				LD43.i().setScreen(new GameScreen());
 			}
 		})));
+		
+		AudioEngine.i.playMusic(1);
 	}
 	
 	@Override

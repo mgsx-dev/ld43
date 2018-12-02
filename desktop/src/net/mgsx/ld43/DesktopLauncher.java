@@ -8,7 +8,6 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = LD43.SCREEN_WIDTH;
 		config.height = LD43.SCREEN_HEIGHT;
-		
 		new LwjglApplication(new LD43(), config);
 	}
 }

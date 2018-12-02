@@ -7,7 +7,7 @@ import net.mgsx.ld43.assets.GameAssets;
 
 public class Canon extends ShipPart
 {
-	public float chargeTime;
+	public float chargeTime = 1;
 	public float frameTime;
 	
 	public boolean shooting;
@@ -72,5 +72,6 @@ public class Canon extends ShipPart
 
 	public void activate() {
 		idle = false;
+		chargeTime = 1;
 	}
 }

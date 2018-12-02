@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 
 import net.mgsx.ld43.LD43;
+import net.mgsx.ld43.assets.AudioEngine;
 import net.mgsx.ld43.assets.GameAssets;
 import net.mgsx.ld43.model.Ship;
 import net.mgsx.ld43.model.ShipPart;
@@ -109,6 +110,12 @@ public class GameUI extends Table
 		
 		menu.addAction(Actions.sequence(
 				Actions.delay(5),
+				Actions.run(new Runnable() {
+					@Override
+					public void run() {
+						AudioEngine.i.playMusic(5);
+					}
+				}),
 				Actions.scaleTo(1, 1, 1f, Interpolation.swingOut),
 				Actions.touchable(Touchable.enabled)));
 		

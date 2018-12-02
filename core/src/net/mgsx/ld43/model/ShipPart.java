@@ -3,6 +3,8 @@ package net.mgsx.ld43.model;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
+import net.mgsx.ld43.assets.AudioEngine;
+
 public class ShipPart {
 	
 	public int damages;
@@ -25,5 +27,12 @@ public class ShipPart {
 	public void restore(){
 		img.setPosition(baseX, baseY);
 		img.setTouchable(Touchable.enabled);
+	}
+
+	public void playImpact() 
+	{
+		if(exploding){
+			AudioEngine.i.playSFX(0);
+		}
 	}
 }

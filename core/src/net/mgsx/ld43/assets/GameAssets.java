@@ -41,6 +41,8 @@ public class GameAssets {
 	
 	public GameAssets() 
 	{
+		AudioEngine.i = new AudioEngine();
+		
 		skin = new Skin(Gdx.files.internal("skins/game-skin.json"));
 		
 		shipMap = new TmxMapLoader().load("../../assets/src/ship.tmx");

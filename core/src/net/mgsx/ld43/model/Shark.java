@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 
+import net.mgsx.ld43.assets.AudioEngine;
 import net.mgsx.ld43.assets.GameAssets;
 import net.mgsx.ld43.utils.FloattingAction;
 
@@ -54,6 +55,10 @@ public class Shark {
 		stuntTime = 2; // TODO depends on part
 		
 		sharkLife -= part.damages;
+		
+		if("pirate".equals(part.name)){
+			AudioEngine.i.playSFX(12);
+		}
 	}
 	
 	public void update(float delta)
@@ -98,7 +103,7 @@ public class Shark {
 		}
 		imgShark.setX(offsetX + MathUtils.lerp(
 				-100, 
-				400 + 500, // XXX debug + 500 
+				400 + 10, // XXX debug + 500 
 				MathUtils.sin(hMotion)));
 		
 		imgShark.setY(offsetY);

@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 
+import net.mgsx.ld43.assets.AudioEngine;
 import net.mgsx.ld43.assets.GameAssets;
 import net.mgsx.ld43.utils.FloattingAction;
 import net.mgsx.ld43.utils.ThrowAction;
@@ -45,12 +46,13 @@ public class Ship {
 
 	public boolean isDead;
 	
+	public boolean dangerCount;
+	
 	public Ship() {
 		Array<TiledMapTileMapObject> mos = new Array<TiledMapTileMapObject>();
 		for(MapLayer layer : GameAssets.i.shipMap.getLayers()){
-			// if(layer.getName().equals("canons")){ // XXX
+			// if(layer.getName().equals("canons")) // XXX
 				mos.addAll(layer.getObjects().getByType(TiledMapTileMapObject.class));
-			// }
 		}
 		
 		shipGround  = new Group();
@@ -136,12 +138,26 @@ public class Ship {
 				MathUtils.lerp(shipGround.getX(), 700, endFactor), 
 				baseY);
 		
+		boolean wasDying = isDead;
 		isDead = true;
+		int remainCount = 0;
 		for(ShipPart part : parts){
 			if(!part.disabled){
 				isDead = false;
-				break;
+				remainCount++;
 			}
+		}
+		
+		if(!dangerCount){
+			dangerCount = true;
+			if(remainCount == 1){
+				AudioEngine.i.playSFX(3);
+			}
+		}
+		
+		if(!wasDying && isDead){
+			// AudioEngine.i.playSFX(1); // XXX without pirates
+			AudioEngine.i.playSFX(2);
 		}
 	}
 

@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import net.mgsx.ld43.LD43;
+import net.mgsx.ld43.assets.AudioEngine;
 import net.mgsx.ld43.assets.GameAssets;
 import net.mgsx.ld43.model.Canon;
 import net.mgsx.ld43.model.Shark;
@@ -63,6 +64,8 @@ public class GameScreen extends StageScreen
 	public GameScreen() {
 		
 		super(new FitViewport(LD43.SCREEN_WIDTH * 2f, LD43.SCREEN_HEIGHT * 2f));
+		
+		AudioEngine.i.playMusic(3);
 		
 		renderer = new ShapeRenderer();
 		
@@ -129,6 +132,8 @@ public class GameScreen extends StageScreen
 						targetActor.addAction(new BlinkAction(8f));// XXX
 					}
 					
+					AudioEngine.i.playSFXRandom(7, 8, 9);
+					
 				}
 				@Override
 				public void drag(InputEvent event, float x, float y, int pointer) {
@@ -147,8 +152,11 @@ public class GameScreen extends StageScreen
 					// max force at 1
 					float force = 3000;
 					
+					ShipPart dragPart = ((ShipPart)targetActor.getUserObject());
 					
 					if(shootingCanon != null){
+						
+						AudioEngine.i.playSFXRandom(5, 6);
 						
 						((Canon)shootingCanon.getUserObject()).shoot();
 						
@@ -162,8 +170,15 @@ public class GameScreen extends StageScreen
 						shootingCanon = null;
 						targetActor = bullet;
 					}
+					else{
+						if("pirate".equals(dragPart.name)){
+							AudioEngine.i.playSFXRandom(10, 11);
+						}else{
+							// TODO global throw
+						}
+					}
 					
-					((ShipPart)targetActor.getUserObject()).disabled = true;
+					dragPart.disabled = true;
 
 					targetActor.clearActions();
 					targetActor.setColor(Color.WHITE);
@@ -195,6 +210,8 @@ public class GameScreen extends StageScreen
 	
 	private float worldSpeedFactor = 1;
 	
+	private boolean endTrigger;
+	
 	@Override
 	public void render(float delta) {
 		
@@ -213,6 +230,11 @@ public class GameScreen extends StageScreen
 		ship.update(delta);
 		
 		if(shark.sharkLife <= 0){
+			
+			if(!endTrigger){
+				endTrigger = true;
+				AudioEngine.i.playMusic(0);
+			}
 			
 			gameUI.launchPickup();
 			
@@ -251,9 +273,14 @@ public class GameScreen extends StageScreen
 				dropActor.addAction(new ThrowAction(-800, 300, -100, 730));
 				dropActor.addAction(Actions.sequence(Actions.parallel(Actions.alpha(0, .5f, Interpolation.pow3In), Actions.scaleTo(3, 3, .5f)), Actions.removeActor()));
 			
-				shark.hurted((ShipPart) dropActor.getUserObject());
+				ShipPart part = (ShipPart) dropActor.getUserObject();
+				shark.hurted(part);
+				part.playImpact();
 				
 				dropActor = null;
+				
+				
+				
 			}
 		}
 		
