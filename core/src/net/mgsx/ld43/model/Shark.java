@@ -33,6 +33,11 @@ public class Shark {
 	public float sharkLifeSmooth;
 	
 	private float preRun = 3f;
+	private float hMotionSpeed;
+	
+	public Shark(int level) {
+		hMotionSpeed = level * .5f;
+	}
 
 	public Image create(){
 		imgShark = new Image();
@@ -99,11 +104,11 @@ public class Shark {
 		}else{
 			offsetX = MathUtils.lerp(offsetX, 0, delta);
 			setFrame(2);
-			hMotion += delta * 4.5f; // XXX .5f
+			hMotion += delta * hMotionSpeed;
 		}
 		imgShark.setX(offsetX + MathUtils.lerp(
 				-100, 
-				400 + 10, // XXX debug + 500 
+				400 + 400, // XXX debug + 500 
 				MathUtils.sin(hMotion)));
 		
 		imgShark.setY(offsetY);

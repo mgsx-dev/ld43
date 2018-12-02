@@ -11,9 +11,11 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
@@ -102,7 +104,7 @@ public class GameScreen extends StageScreen
 		
 		stage.addActor(shipGround);
 		
-		shark = new Shark();
+		shark = new Shark(LD43.i().metagame.level);
 		stage.addActor(shark.create());
 		
 		stage.addActor(waterFgScroller = new Scroller(GameAssets.i.regionWater, new Color(1,1,1,.7f)));
@@ -176,6 +178,18 @@ public class GameScreen extends StageScreen
 						}else{
 							// TODO global throw
 						}
+						targetActor.clearActions();
+						targetActor.setVisible(false);
+						targetActor.setTouchable(Touchable.disabled);
+						Drawable drawable = ((Image)targetActor).getDrawable();
+						float tx = targetActor.getX();
+						float ty = targetActor.getY();
+						
+						targetActor = new Image(drawable);
+						targetActor.setPosition(tx, ty);
+						targetActor.setUserObject(dragPart);
+						targetActor.setOrigin(Align.center);
+						ship.shipGround.addActor(targetActor);
 					}
 					
 					dragPart.disabled = true;
@@ -196,6 +210,9 @@ public class GameScreen extends StageScreen
 					dropActor.addAction(Actions.sequence(
 							new ThrowAction(shootVector.x * force, shootVector.y * force, 5000f, 720)
 							));
+					
+					// XXX delete copy after 5s !
+					dropActor.addAction(Actions.sequence(Actions.delay(5), Actions.removeActor()));
 				}
 			});
 		}

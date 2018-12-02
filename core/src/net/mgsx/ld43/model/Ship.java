@@ -169,8 +169,12 @@ public class Ship {
 
 	public Image ejectPart() {
 		Vector2 p = leftPart.img.localToStageCoordinates(new Vector2());
-		leftPart.img.setPosition(p.x, p.y);
-		Image img = leftPart.img;
+		
+		leftPart.disable();
+		
+		Image img = new Image(leftPart.img.getDrawable());
+		img.setOrigin(Align.center);
+		img.setPosition(p.x, p.y);
 		
 		img.setTouchable(Touchable.disabled);
 		
@@ -202,7 +206,6 @@ public class Ship {
 
 	public void restorePart(ShipPart part) {
 		part.restore();
-		shipGround.addActor(part.img);
 		part.img.setColor(Color.WHITE);
 		part.img.setScale(1);
 		part.img.setRotation(0);

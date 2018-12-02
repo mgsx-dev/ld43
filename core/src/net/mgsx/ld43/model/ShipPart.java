@@ -25,9 +25,15 @@ public class ShipPart {
 	}
 	
 	public void restore(){
+		img.setVisible(true);
 		img.clearActions();
 		img.setPosition(baseX, baseY);
 		img.setTouchable(Touchable.enabled);
+	}
+	public void disable() {
+		img.setVisible(false);
+		img.clearActions();
+		img.setTouchable(Touchable.disabled);
 	}
 
 	public void playImpact() 
@@ -36,4 +42,5 @@ public class ShipPart {
 			AudioEngine.i.playSFX(0);
 		}
 	}
+
 }
