@@ -25,6 +25,7 @@ public class ShipPart {
 	}
 	
 	public void restore(){
+		img.clearActions();
 		img.setPosition(baseX, baseY);
 		img.setTouchable(Touchable.enabled);
 	}

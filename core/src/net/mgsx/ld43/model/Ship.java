@@ -1,5 +1,6 @@
 package net.mgsx.ld43.model;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
@@ -201,6 +202,11 @@ public class Ship {
 
 	public void restorePart(ShipPart part) {
 		part.restore();
+		shipGround.addActor(part.img);
+		part.img.setColor(Color.WHITE);
+		part.img.setScale(1);
+		part.img.setRotation(0);
+		part.disabled = false;
 	}
 	
 	

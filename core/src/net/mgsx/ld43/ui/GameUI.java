@@ -153,11 +153,13 @@ public class GameUI extends Table
 				imgPart.addListener(new ClickListener(){
 					@Override
 					public void clicked(InputEvent event, float x, float y) {
+						if(LD43.i().metagame.credits <= 0){
+							return;
+						}
 						ship.restorePart(part);
 						LD43.i().metagame.credits--;
 						updateChooseUpLabel(labelChooseUp);
 						if(LD43.i().metagame.credits <= 0){
-							setTouchable(Touchable.disabled);
 							addAction(Actions.sequence(Actions.delay(1f), Actions.run(new Runnable() {
 								@Override
 								public void run() {
