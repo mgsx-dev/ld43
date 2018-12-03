@@ -338,7 +338,7 @@ public class GameScreen extends StageScreen
 					
 					
 					if(part.exploding){
-						spawnText(shark.circleShaper.x, shark.circleShaper.y, 1);
+						spawnText(shark.circleShaper.x, shark.circleShaper.y, 1, true);
 					}else{
 						spawnText(shark.circleShaper.x, shark.circleShaper.y, 0, 2, 3, 4);
 					}
@@ -444,6 +444,9 @@ public class GameScreen extends StageScreen
 	}
 
 	private void spawnText(float x, float y, int index) {
+		spawnText(x, y, index, false);
+	}
+	private void spawnText(float x, float y, int index, boolean big) {
 		Image img = new Image(GameAssets.i.textsRegions.get(index));
 		img.setPosition(x, y);
 		img.setTouchable(Touchable.disabled);
@@ -451,7 +454,8 @@ public class GameScreen extends StageScreen
 		
 		img.setOrigin(Align.center);
 		
-		float s = 1.5f;
+		float sBase = big ? 2 : 1;
+		float s = big ? 3 : 1.5f;
 		float d = .1f;
 		
 		img.addAction(Actions.parallel(
@@ -461,7 +465,7 @@ public class GameScreen extends StageScreen
 						),
 				Actions.forever(Actions.sequence(
 						Actions.scaleTo(s, s, d),
-						Actions.scaleTo(1, 1, d)
+						Actions.scaleTo(sBase, sBase, d)
 						
 						))
 				
