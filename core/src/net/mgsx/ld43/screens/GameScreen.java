@@ -118,7 +118,7 @@ public class GameScreen extends StageScreen
 		stage.addActor(shark.create());
 		
 		stage.addActor(waterFgScroller = new Scroller(GameAssets.i.regionWater, new Color(1,1,1,.7f)));
-		waterFgScroller.setY(0);
+		waterFgScroller.setY(-4);
 		waterFgScroller.speedFactor = 3f;
 		waterFgScroller.speedBase = .2f;
 		
