@@ -56,10 +56,9 @@ public class Shark {
 	
 	public void hurted(ShipPart part){
 		
-		// TODO
 		stunt = true;
 		
-		stuntTime = 2; // TODO depends on part
+		stuntTime = part.stuntTime;
 		
 		sharkLife -= part.damages;
 		
