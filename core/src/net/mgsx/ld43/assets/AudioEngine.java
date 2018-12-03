@@ -19,6 +19,9 @@ public class AudioEngine {
 	
 	public static final boolean enabled = true;
 	
+	public static final boolean log = false;
+	
+	
 	public AudioEngine() 
 	{
 		if(!enabled) return;
@@ -75,14 +78,14 @@ public class AudioEngine {
 	}
 	
 	public void playSFX(int index){
-		System.out.println("sfx " + index);
+		if(log) System.out.println("sfx " + index);
 		if(!enabled) return;
 		
 		Sound sound = sounds.get(index);
 		if(sound != null){
 			sound.play(SFXVolume);
 		}else{
-			System.out.println("not found SFX " + index);
+			if(log) System.out.println("not found SFX " + index);
 		}
 	}
 	
@@ -104,7 +107,7 @@ public class AudioEngine {
 			currentMusic.setLooping(loop);
 			currentMusic.play();
 		}else{
-			System.out.println("not found music " + index);
+			if(log) System.out.println("not found music " + index);
 		}
 	}
 	

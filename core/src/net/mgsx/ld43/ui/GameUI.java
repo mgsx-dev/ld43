@@ -208,7 +208,7 @@ public class GameUI extends Table
 				});
 			}
 			// XXX
-			if(count > 32) break;
+			// if(count >= 40) break;
 		}
 		
 		

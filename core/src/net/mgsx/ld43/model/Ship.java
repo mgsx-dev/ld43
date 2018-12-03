@@ -3,6 +3,7 @@ package net.mgsx.ld43.model;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
@@ -54,7 +55,12 @@ public class Ship {
 		for(MapLayer layer : GameAssets.i.shipMap.getLayers()){
 			
 			if(Rules.DEBUG_SMALL_SHIP && !layer.getName().equals("canons")) continue;
-			mos.addAll(layer.getObjects().getByType(TiledMapTileMapObject.class));
+			
+			for(MapObject mo : layer.getObjects()){
+				if(mo instanceof TiledMapTileMapObject){
+					mos.add((TiledMapTileMapObject) mo);
+				}
+			}
 		}
 		
 		shipGround  = new Group();

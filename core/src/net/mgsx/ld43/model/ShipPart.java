@@ -20,7 +20,7 @@ public class ShipPart {
 	public static ShipPart bullet() {
 		ShipPart p = new ShipPart();
 		p.damages = 2;
-		p.stuntTime = 3;
+		p.stuntTime = 1;
 		return p;
 	}
 	
