@@ -69,8 +69,8 @@ public class GameAssets {
 		regionPirateFace = shipMap.getTileSets().getTileSet(0).getTile(24).getTextureRegion();
 		arrowRegion = shipMap.getTileSets().getTileSet(0).getTile(14).getTextureRegion();
 		
-		Texture sharkTexture = new Texture(Gdx.files.local("shark.png"));
-		Texture sharkTexture2 = new Texture(Gdx.files.local("shark2.png"));
+		Texture sharkTexture = new Texture(Gdx.files.internal("shark.png"));
+		Texture sharkTexture2 = new Texture(Gdx.files.internal("shark2.png"));
 
 		sharkFrames = new Array<TextureRegion>();
 		sharkFrames.add(new TextureRegion(sharkTexture, 0, 1024 - 128 * 3, 1024, 128 * 3));
@@ -109,7 +109,7 @@ public class GameAssets {
 		
 		regionBoatBase = new TextureRegion(tilesetTexture, 0, 1024 - 128 * 4, 128 * 5, 128 * 4);
 
-		bgTexture = new Texture(Gdx.files.local("background.png"));
+		bgTexture = new Texture(Gdx.files.internal("background.png"));
 
 
 		
@@ -118,14 +118,14 @@ public class GameAssets {
 		regionSky = new TextureRegion(bgTexture, 0, 1024 - 128 * 8, 1024, 128 * 3);
 		
 		
-		bgTexture2 = new Texture(Gdx.files.local("background2.png"));
+		bgTexture2 = new Texture(Gdx.files.internal("background2.png"));
 
 		regionIslandEnd = new TextureRegion(bgTexture2, 0, 0, 1024, 1024);
 		
-		prelevelTexture = new Texture(Gdx.files.local("prelevel.png"));
-		titleTexture = new Texture(Gdx.files.local("titleScreen.png"));
+		prelevelTexture = new Texture(Gdx.files.internal("prelevel.png"));
+		titleTexture = new Texture(Gdx.files.internal("titleScreen.png"));
 		
-		textsTexture = new Texture(Gdx.files.local("texts.png"));
+		textsTexture = new Texture(Gdx.files.internal("texts.png"));
 		
 		textsRegions = new Array<TextureRegion>();
 		for(int y=0 ; y<4 ; y++){
