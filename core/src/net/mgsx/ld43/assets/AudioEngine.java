@@ -31,9 +31,6 @@ public class AudioEngine {
 		songs(5, "PO taverne.mp3");
 		
 		sfx(0, "baril explose.wav");
-		sfx(1, "bateau coule.wav");
-		sfx(2, "bateau coule avec pirate.wav");
-		sfx(3, "bateau en dange.wav");
 		sfx(4, "bulle eau.wav");
 		sfx(5, "canon 1.wav");
 		sfx(6, "canon 2.wav");
@@ -42,18 +39,15 @@ public class AudioEngine {
 		sfx(9, "mat 3.wav");
 		sfx(10, "pirate lance 1.wav");
 		sfx(11, "pirate lance 2.wav");
-		sfx(12, "requin mache humain.wav");
 		
-		sfx(13, "bip.wav");
+		sfx(13, "bip.wav"); // menu fx
 		sfx(14, "canon 5.wav");
 		sfx(15, "game over 2.wav");
 		sfx(16, "game over.wav");
 		sfx(17, "impact requin.wav");
 		sfx(18, "jet objet.wav");
-		sfx(19, "loose.wav");
 		sfx(20, "mat court.wav");
 		sfx(21, "perroquet.wav");
-		sfx(22, "reparation2.wav");
 		sfx(23, "reparation.wav");
 		sfx(24, "requin mange bateau.wav");
 		sfx(25, "requin mange bateau 2.wav");
