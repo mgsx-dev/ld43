@@ -134,7 +134,7 @@ public class GameScreen extends StageScreen
 						targetActor.addAction(new BlinkAction(8f));// XXX
 					}
 					
-					AudioEngine.i.playSFXRandom(7, 8, 9, 20);
+					AudioEngine.i.playSFXRandom(7, 8, 9, 20, 29);
 					
 				}
 				@Override
@@ -316,7 +316,7 @@ public class GameScreen extends StageScreen
 				if("pirate".equals(part.name)){
 					dropActor.remove();
 					shark.eatPirate();
-					AudioEngine.i.playSFX(27);
+					AudioEngine.i.playSFX(31);
 				}else{
 					AudioEngine.i.playSFX(17);
 					
@@ -341,7 +341,7 @@ public class GameScreen extends StageScreen
 				if(dropActor.getY(Align.center) < 0){
 					dropActor.remove();
 					dropActor = null;
-					AudioEngine.i.playSFX(4);
+					AudioEngine.i.playSFXRandom(33, 34, 35);
 				}
 				
 			}

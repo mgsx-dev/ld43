@@ -34,9 +34,9 @@ public class AudioEngine {
 		sfx(4, "bulle eau.wav");
 		sfx(5, "canon 1.wav");
 		sfx(6, "canon 2.wav");
-		sfx(7, "mat 1.wav");
-		sfx(8, "mat 2.wav");
-		sfx(9, "mat 3.wav");
+		sfx(7, "mat11.wav");
+		sfx(8, "mat12.wav");
+		sfx(9, "mat13.wav");
 		sfx(10, "pirate lance 1.wav");
 		sfx(11, "pirate lance 2.wav");
 		
@@ -46,14 +46,25 @@ public class AudioEngine {
 		sfx(16, "game over.wav");
 		sfx(17, "impact requin.wav");
 		sfx(18, "jet objet.wav");
-		sfx(20, "mat court.wav");
+		sfx(20, "mat14.wav");
 		sfx(21, "perroquet.wav");
 		sfx(23, "reparation.wav");
 		sfx(24, "requin mange bateau.wav");
 		sfx(25, "requin mange bateau 2.wav");
 		sfx(26, "requin mange bateau 3.wav");
-		sfx(27, "requin mange humain 2.wav");
+		sfx(27, "requin mange humain 2.wav"); // TODO remove
 		sfx(28, "requin touche.wav");
+		
+		sfx(29, "mat15.wav");
+		
+		sfx(30, "requin mange bateau 4.wav"); // TODO remove
+		sfx(31, "requin mange humain 3.wav");
+		
+		sfx(32, "bouteille.wav"); // XXX not used for now
+		
+		sfx(33, "plouf.wav");
+		sfx(34, "plouf2.wav");
+		sfx(35, "plouf3.wav");
 	}
 
 	private void songs(int i, String name) {
