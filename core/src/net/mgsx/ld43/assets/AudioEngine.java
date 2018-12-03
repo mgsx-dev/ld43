@@ -17,7 +17,7 @@ public class AudioEngine {
 	
 	private static float SFXVolume = .5f;
 	
-	public static final boolean enabled = false;
+	public static final boolean enabled = true;
 	
 	public AudioEngine() 
 	{
@@ -27,7 +27,7 @@ public class AudioEngine {
 		songs(1, "PO credits.mp3");
 		songs(2, "PO intro.mp3");
 		songs(3, "PO main theme.mp3");
-		songs(4, "PO main theme sans intro.mp3");
+		songs(4, "PO main theme tenu.mp3");
 		songs(5, "PO taverne.mp3");
 		
 		sfx(0, "baril explose.wav");
@@ -43,6 +43,23 @@ public class AudioEngine {
 		sfx(10, "pirate lance 1.wav");
 		sfx(11, "pirate lance 2.wav");
 		sfx(12, "requin mache humain.wav");
+		
+		sfx(13, "bip.wav");
+		sfx(14, "canon 5.wav");
+		sfx(15, "game over 2.wav");
+		sfx(16, "game over.wav");
+		sfx(17, "impact requin.wav");
+		sfx(18, "jet objet.wav");
+		sfx(19, "loose.wav");
+		sfx(20, "mat court.wav");
+		sfx(21, "perroquet.wav");
+		sfx(22, "reparation2.wav");
+		sfx(23, "reparation.wav");
+		sfx(24, "requin mange bateau.wav");
+		sfx(25, "requin mange bateau 2.wav");
+		sfx(26, "requin mange bateau 3.wav");
+		sfx(27, "requin mange humain 2.wav");
+		sfx(28, "requin touche.wav");
 	}
 
 	private void songs(int i, String name) {
