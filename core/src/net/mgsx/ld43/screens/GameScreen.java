@@ -134,7 +134,7 @@ public class GameScreen extends StageScreen
 						targetActor.addAction(new BlinkAction(8f));// XXX
 					}
 					
-					AudioEngine.i.playSFXRandom(7, 8, 9);
+					AudioEngine.i.playSFXRandom(7, 8, 9, 20);
 					
 				}
 				@Override
@@ -158,7 +158,7 @@ public class GameScreen extends StageScreen
 					
 					if(shootingCanon != null){
 						
-						AudioEngine.i.playSFXRandom(5, 6);
+						AudioEngine.i.playSFXRandom(5, 6, 14);
 						
 						((Canon)shootingCanon.getUserObject()).shoot();
 						
@@ -175,8 +175,10 @@ public class GameScreen extends StageScreen
 					else{
 						if("pirate".equals(dragPart.name)){
 							AudioEngine.i.playSFXRandom(10, 11);
+						}else if("perrot".equals(dragPart.name)){
+							AudioEngine.i.playSFX(21);
 						}else{
-							// TODO global throw
+							AudioEngine.i.playSFX(18);
 						}
 						targetActor.clearActions();
 						targetActor.setVisible(false);
@@ -251,7 +253,7 @@ public class GameScreen extends StageScreen
 			
 			if(!endTrigger){
 				endTrigger = true;
-				AudioEngine.i.playMusic(0);
+				AudioEngine.i.playMusicOnce(0);
 			}
 			
 			gameUI.launchPickup();
@@ -271,7 +273,8 @@ public class GameScreen extends StageScreen
 			
 			if(!endTrigger){
 				endTrigger = true;
-				AudioEngine.i.playMusic(2);
+				
+				AudioEngine.i.playSFXRandom(15, 16);
 				
 				gameUI.displayGameOver();
 			}
@@ -306,9 +309,25 @@ public class GameScreen extends StageScreen
 				shark.hurted(part);
 				part.playImpact();
 				
+				if("pirate".equals(part.name)){
+					dropActor.remove();
+					shark.eatPirate();
+					AudioEngine.i.playSFX(27);
+				}else{
+					AudioEngine.i.playSFX(17);
+				}
+				
 				dropActor = null;
 				
 				
+				
+			}else{
+				
+				if(dropActor.getY(Align.center) < 0){
+					dropActor.remove();
+					dropActor = null;
+					AudioEngine.i.playSFX(4);
+				}
 				
 			}
 		}
@@ -319,6 +338,8 @@ public class GameScreen extends StageScreen
 			if(shark.circleShaper.x + shark.circleShaper.radius > ship.leftPart.img.getX() + ship.shipGround.getX() + 200){
 				
 				shark.attack();
+				
+				AudioEngine.i.playSFXRandom(24, 25, 26);
 				
 				stage.addActor(ship.ejectPart());
 			}

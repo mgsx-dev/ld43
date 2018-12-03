@@ -134,7 +134,7 @@ public class GameUI extends Table
 		menu.setPosition(getStage().getWidth()/2, getStage().getHeight()/2, Align.center);
 		
 		menu.addAction(Actions.sequence(
-				Actions.delay(5),
+				Actions.delay(4),
 				Actions.run(new Runnable() {
 					@Override
 					public void run() {
@@ -181,6 +181,9 @@ public class GameUI extends Table
 						if(LD43.i().metagame.credits <= 0){
 							return;
 						}
+						
+						AudioEngine.i.playSFX(23);
+						
 						ship.restorePart(part);
 						LD43.i().metagame.credits--;
 						updateChooseUpLabel(labelChooseUp);

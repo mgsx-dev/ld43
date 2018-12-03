@@ -44,6 +44,9 @@ public class TitleScreen extends StageScreen
 		bt.addListener(new ClickListener(){
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				
+				AudioEngine.i.playSFX(13);
+				
 				LD43.i().setScreen(new PreLevelScreen());
 			}
 		});
@@ -64,7 +67,7 @@ public class TitleScreen extends StageScreen
 		stage.addActor(t);
 		t.setPosition(stage.getWidth()/2, stage.getHeight()/2, Align.center);
 		
-		AudioEngine.i.playMusic(1);
+		AudioEngine.i.playMusic(2);
 	}
 	
 	@Override

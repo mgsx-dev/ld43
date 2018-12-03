@@ -35,6 +35,7 @@ public class Shark {
 	private float preRun = 3f;
 	private float hMotionSpeed;
 	private boolean leave;
+	private boolean eatHuman;
 	
 	public Shark(int level) {
 		hMotionSpeed = level * .5f;
@@ -102,6 +103,10 @@ public class Shark {
 			stuntTime -= delta;
 			if(stuntTime < 0){
 				stunt = false;
+				eatHuman = false;
+			}
+			if(eatHuman){
+				animEatHuman();
 			}
 		}else if(attacking){
 			attackTime += delta * 4;
@@ -138,6 +143,10 @@ public class Shark {
 //		}
 	}
 	
+	private void animEatHuman() {
+		setFrame(2); // TODO eat !
+	}
+
 	private void setFrame(int i){
 		((TextureRegionDrawable)imgShark.getDrawable()).setRegion(GameAssets.i.sharkFrames.get(i));
 	}
@@ -149,5 +158,12 @@ public class Shark {
 	public void attack() {
 		attacking = true;
 		attackTime = 0f;
+	}
+
+	public void eatPirate() {
+		// TODO set animation
+		
+		eatHuman = true;
+		
 	}
 }

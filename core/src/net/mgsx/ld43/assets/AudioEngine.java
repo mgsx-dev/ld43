@@ -27,7 +27,7 @@ public class AudioEngine {
 		songs(1, "PO credits.mp3");
 		songs(2, "PO intro.mp3");
 		songs(3, "PO main theme.mp3");
-		songs(4, "PO main theme tenu.mp3");
+		songs(4, "PO main theme tenu.mp3"); // TODO not used
 		songs(5, "PO taverne.mp3");
 		
 		sfx(0, "baril explose.wav");
@@ -70,10 +70,16 @@ public class AudioEngine {
 		Sound sound = sounds.get(index);
 		if(sound != null){
 			sound.play(SFXVolume);
+		}else{
+			System.out.println("not found SFX " + index);
 		}
 	}
 	
 	public void playMusic(int index)
+	{
+		playMusic(index, true);
+	}
+	private void playMusic(int index, boolean loop)
 	{
 		if(!enabled) return;
 		
@@ -84,14 +90,22 @@ public class AudioEngine {
 		
 		currentMusic = musics.get(index);
 		if(currentMusic != null){
-			currentMusic.setLooping(true);
+			currentMusic.setLooping(loop);
 			currentMusic.play();
+		}else{
+			System.out.println("not found music " + index);
 		}
+	}
+	
+	public void playMusicOnce(int index) {
+		playMusic(index, false);
 	}
 
 	public void playSFXRandom(int ... snds) {
 		int i = MathUtils.random(snds.length-1);
 		playSFX(snds[i]);
 	}
+
+	
 	
 }
