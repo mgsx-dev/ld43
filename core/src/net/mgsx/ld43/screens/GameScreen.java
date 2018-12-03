@@ -191,7 +191,13 @@ public class GameScreen extends StageScreen
 						float tx = targetActor.getX();
 						float ty = targetActor.getY();
 						
-						targetActor = new Image(drawable);
+						if("pirate".equals(dragPart.name)){
+							targetActor = new Image(GameAssets.i.regionPirateFace);
+						}else{
+							targetActor = new Image(drawable);
+						}
+						
+						
 						targetActor.setPosition(tx, ty);
 						targetActor.setUserObject(dragPart);
 						targetActor.setOrigin(Align.center);

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="left-down" width="8" height="6" tilewidth="128" tileheight="128" nextobjectid="130">
+<map version="1.0" orientation="orthogonal" renderorder="left-down" width="8" height="6" tilewidth="128" tileheight="128" nextobjectid="131">
  <tileset firstgid="1" name="tileset" tilewidth="128" tileheight="128" tilecount="289" columns="8">
   <image source="tileset.png" width="1024" height="1024"/>
  </tileset>
@@ -29,9 +29,9 @@
   <object id="101" name="barre" gid="31" x="270.667" y="580" width="128" height="128"/>
   <object id="102" name="pirate" gid="16" x="-52" y="558.667" width="128" height="128"/>
   <object id="103" name="pirate" gid="23" x="28" y="572" width="128" height="128"/>
-  <object id="104" name="pirate" gid="24" x="486.667" y="520" width="128" height="128"/>
   <object id="105" name="pirate" gid="16" x="141.333" y="569.333" width="128" height="128"/>
   <object id="116" name="flag" gid="63" x="280" y="257.333" width="128" height="128"/>
+  <object id="130" name="pirate" gid="16" x="496" y="525.333" width="128" height="128"/>
  </objectgroup>
  <objectgroup name="new2">
   <object id="85" gid="48" x="212" y="749.333" width="128" height="128"/>

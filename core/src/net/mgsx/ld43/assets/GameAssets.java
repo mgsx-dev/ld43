@@ -49,6 +49,9 @@ public class GameAssets {
 
 
 	public Animation<TextureRegion> sharkAnimationEat;
+
+
+	public TextureRegion regionPirateFace;
 	
 	public GameAssets() 
 	{
@@ -59,6 +62,8 @@ public class GameAssets {
 		shipMap = new TmxMapLoader().load("ship.tmx");
 
 		Texture tilesetTexture = shipMap.getTileSets().getTileSet(0).iterator().next().getTextureRegion().getTexture();
+		
+		regionPirateFace = shipMap.getTileSets().getTileSet(0).getTile(24).getTextureRegion();
 		
 		Texture sharkTexture = new Texture(Gdx.files.local("shark.png"));
 		Texture sharkTexture2 = new Texture(Gdx.files.local("shark2.png"));
