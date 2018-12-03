@@ -86,6 +86,12 @@ public class GameScreen extends StageScreen
 		ship.setBase(stage.getViewport().getWorldWidth() - ship.r.width * 1.3f, 140); 
 		
 		
+		Image sky = new Image(GameAssets.i.skin, "white");
+		sky.setColor(.7f, .9f, .95f, 1);
+		sky.setSize(viewport.getWorldWidth(), viewport.getWorldHeight());
+		stage.addActor(sky);
+		
+		
 		stage.addActor(skyScroller = new Scroller(GameAssets.i.regionSky));
 		skyScroller.setY(600);
 		skyScroller.speedFactor = .1f;
@@ -390,8 +396,7 @@ public class GameScreen extends StageScreen
 		// TODO check ship dead or shark dead ...
 		
 		
-		Gdx.gl.glClearColor(.7f, .9f, .95f, 0);
-		// Gdx.gl.glClearColor(0, 0, 0, 0);
+		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
 		super.render(delta);
