@@ -106,10 +106,17 @@ public class Shark {
 			setFrame(2);
 			hMotion += delta * hMotionSpeed;
 		}
-		imgShark.setX(offsetX + MathUtils.lerp(
-				-100, 
-				400 + 400, // XXX debug + 500 
-				MathUtils.sin(hMotion)));
+		
+		float hShark = MathUtils.lerp( -100,  300,  MathUtils.sin(hMotion));
+		// TODO add other sins
+		
+		hShark += MathUtils.lerp( 0,  200,  MathUtils.sin(hMotion * .5f + 0.72f)*.5f+.5f);
+		hShark += MathUtils.lerp( 0,  100,  MathUtils.sin(hMotion * .25f + 1.2f)*.5f+.5f);
+		
+		
+		
+		
+		imgShark.setX(offsetX + hShark);
 		
 		imgShark.setY(offsetY);
 		

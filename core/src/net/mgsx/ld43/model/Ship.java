@@ -118,7 +118,7 @@ public class Ship {
 		
 		hTime += delta * .5f;
 		
-		float recule = MathUtils.lerp(-300, 300, MathUtils.sin(hTime) * .5f + .5f);
+		float recule = MathUtils.lerp(500, -200, MathUtils.sin(hTime) * .5f + .5f);
 		
 		shipGround.setPosition(baseX - recule, baseY);
 		
