@@ -116,6 +116,8 @@ public class GameUI extends Table
 		if(modePickup) return;
 		modePickup = true;
 		
+		removeLifeBar();
+		
 		LD43.i().metagame.credits += LD43.i().metagame.level;
 		
 		Table menu = new Table(getSkin());
@@ -163,6 +165,8 @@ public class GameUI extends Table
 				end();
 			}
 		});
+		
+		btOK.addAction(Actions.forever(Actions.sequence(Actions.alpha(.3f, 1), Actions.alpha(1))));
 		
 		getStage().addActor(menu);
 		
@@ -218,5 +222,10 @@ public class GameUI extends Table
 	private void end(){
 		LD43.i().metagame.level++;
 		LD43.i().setScreen(new PreLevelScreen());
+	}
+
+	public void removeLifeBar() {
+		backLife.addAction(Actions.alpha(0, 1, Interpolation.pow2In));
+		imgLife.remove();
 	}
 }

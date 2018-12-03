@@ -29,11 +29,11 @@ public class PreLevelScreen extends StageScreen
 		legend.setFillParent(true);
 		stage.addActor(legend);
 
-		legend.add("Pirate Overboard").expand().top();
+		legend.add("Get Ready").expand().top();
 		legend.row();
 		legend.add("Level " + (LD43.i().metagame.level)).expand().bottom();
 		
-		stage.addAction(Actions.sequence(Actions.delay(2), Actions.run(new Runnable() {
+		stage.addAction(Actions.sequence(Actions.delay(3), Actions.run(new Runnable() {
 			
 			@Override
 			public void run() {

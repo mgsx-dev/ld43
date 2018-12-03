@@ -2,12 +2,10 @@ package net.mgsx.ld43.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -41,15 +39,15 @@ public class TitleScreen extends StageScreen
 		Label bt = new Label("Touch to Start", GameAssets.i.skin);
 		bt.setFontScale(1);
 		
-		bt.addListener(new ClickListener(){
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				
-				AudioEngine.i.playSFX(13);
-				
-				LD43.i().setScreen(new PreLevelScreen());
-			}
-		});
+//		bt.addListener(new ClickListener(){
+//			@Override
+//			public void clicked(InputEvent event, float x, float y) {
+//				
+//				AudioEngine.i.playSFX(13);
+//				
+//				LD43.i().setScreen(new PreLevelScreen());
+//			}
+//		});
 		
 		Table t = new Table();
 		t.setTransform(true);
@@ -72,6 +70,13 @@ public class TitleScreen extends StageScreen
 	
 	@Override
 	public void render(float delta) {
+		
+		if(Gdx.input.isTouched()){
+			AudioEngine.i.playSFX(13);
+			
+			LD43.i().setScreen(new PreLevelScreen());
+		}
+		
 		Gdx.gl.glClearColor(0, 0, 0, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 		super.render(delta);

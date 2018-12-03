@@ -211,6 +211,7 @@ public class Ship {
 	}
 
 	public void enable() {
+		hTime = 0;
 		disabled = false;
 		shipGround.setTouchable(Touchable.enabled);
 		for(Canon canon : canons){
