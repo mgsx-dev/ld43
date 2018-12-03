@@ -158,6 +158,10 @@ public class GameScreen extends StageScreen
 					
 					if(shootingCanon != null){
 						
+						Vector2 v = shootingCanon.localToStageCoordinates(new Vector2(shootingCanon.getOriginX(), shootingCanon.getOriginY()));
+						
+						spawnText(v.x - 100, v.y - 100, 5);
+						
 						AudioEngine.i.playSFXRandom(5, 6, 14);
 						
 						((Canon)shootingCanon.getUserObject()).shoot();
@@ -315,6 +319,17 @@ public class GameScreen extends StageScreen
 					AudioEngine.i.playSFX(27);
 				}else{
 					AudioEngine.i.playSFX(17);
+					
+					
+					if(part.exploding){
+						spawnText(shark.circleShaper.x, shark.circleShaper.y, 1);
+					}else{
+						spawnText(shark.circleShaper.x, shark.circleShaper.y, 0, 2, 3, 4);
+					}
+					
+					
+					
+					
 				}
 				
 				dropActor = null;
@@ -395,5 +410,33 @@ public class GameScreen extends StageScreen
 			renderer.end();
 		}
 		
+	}
+
+	private void spawnText(float x, float y, int ... indices) {
+		spawnText(x, y, indices[MathUtils.random(indices.length-1)]);
+	}
+
+	private void spawnText(float x, float y, int index) {
+		Image img = new Image(GameAssets.i.textsRegions.get(index));
+		img.setPosition(x, y);
+		stage.addActor(img);
+		
+		img.setOrigin(Align.center);
+		
+		float s = 1.5f;
+		float d = .1f;
+		
+		img.addAction(Actions.parallel(
+				Actions.sequence(
+						Actions.delay(.5f),
+						Actions.removeActor()
+						),
+				Actions.forever(Actions.sequence(
+						Actions.scaleTo(s, s, d),
+						Actions.scaleTo(1, 1, d)
+						
+						))
+				
+				));
 	}
 }

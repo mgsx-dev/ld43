@@ -39,8 +39,13 @@ public class GameAssets {
 
 	public Texture prelevelTexture;
 
+	public Texture textsTexture;
 
+	
 	public Texture titleTexture;
+
+
+	public Array<TextureRegion> textsRegions;
 	
 	public GameAssets() 
 	{
@@ -93,6 +98,15 @@ public class GameAssets {
 		
 		prelevelTexture = new Texture(Gdx.files.local("../../assets/src/prelevel.png"));
 		titleTexture = new Texture(Gdx.files.local("../../assets/src/titleScreen.png"));
+		
+		textsTexture = new Texture(Gdx.files.local("../../assets/src/texts.png"));
+		
+		textsRegions = new Array<TextureRegion>();
+		for(int y=0 ; y<4 ; y++){
+			for(int x=0 ; x<4 ; x++){
+				textsRegions.add(new TextureRegion(textsTexture, x * 256, y * 256, 256, 256));;
+			}
+		}
 
 	}
 }
