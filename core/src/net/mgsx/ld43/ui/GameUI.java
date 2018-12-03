@@ -119,6 +119,9 @@ public class GameUI extends Table
 		LD43.i().metagame.credits += LD43.i().metagame.level;
 		
 		Table menu = new Table(getSkin());
+		
+		menu.getColor().a = .9f;
+		
 		menu.setBackground(getSkin().newDrawable("white", Color.DARK_GRAY));
 		menu.add("Level " + LD43.i().metagame.level + " Rewards").getActor().setFontScale(2);
 		menu.row();
@@ -127,7 +130,7 @@ public class GameUI extends Table
 		menu.add(labelChooseUp);
 		updateChooseUpLabel(labelChooseUp);
 		
-		menu.setSize(getStage().getWidth() * .7f, getStage().getHeight() * .7f);
+		menu.setSize(getStage().getWidth() * .6f, getStage().getHeight() * .9f);
 		menu.setTransform(true);
 		menu.setScale(0);
 		menu.setOrigin(Align.right);

@@ -52,6 +52,9 @@ public class GameAssets {
 
 
 	public TextureRegion regionPirateFace;
+
+
+	public TextureRegion arrowRegion;
 	
 	public GameAssets() 
 	{
@@ -64,6 +67,7 @@ public class GameAssets {
 		Texture tilesetTexture = shipMap.getTileSets().getTileSet(0).iterator().next().getTextureRegion().getTexture();
 		
 		regionPirateFace = shipMap.getTileSets().getTileSet(0).getTile(24).getTextureRegion();
+		arrowRegion = shipMap.getTileSets().getTileSet(0).getTile(14).getTextureRegion();
 		
 		Texture sharkTexture = new Texture(Gdx.files.local("shark.png"));
 		Texture sharkTexture2 = new Texture(Gdx.files.local("shark2.png"));
@@ -116,7 +120,7 @@ public class GameAssets {
 		
 		bgTexture2 = new Texture(Gdx.files.local("background2.png"));
 
-		regionIslandEnd = new TextureRegion(bgTexture2, 0, 1024 - 128 * 6, 1024, 128 * 6);
+		regionIslandEnd = new TextureRegion(bgTexture2, 0, 0, 1024, 1024);
 		
 		prelevelTexture = new Texture(Gdx.files.local("prelevel.png"));
 		titleTexture = new Texture(Gdx.files.local("titleScreen.png"));

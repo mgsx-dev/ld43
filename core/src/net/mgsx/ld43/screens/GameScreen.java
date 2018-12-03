@@ -63,11 +63,15 @@ public class GameScreen extends StageScreen
 
 	private Image imgIslandEnd;
 	
+	private Image arrow;
+	
 	public GameScreen() {
 		
 		super(new FitViewport(LD43.SCREEN_WIDTH * 2f, LD43.SCREEN_HEIGHT * 2f));
 		
 		AudioEngine.i.playMusic(3);
+		
+		arrow = new Image(GameAssets.i.arrowRegion);
 		
 		renderer = new ShapeRenderer();
 		
@@ -123,6 +127,8 @@ public class GameScreen extends StageScreen
 					
 					targetActor = actor;
 					
+					stage.addActor(arrow);
+					
 					if(actor.getUserObject() instanceof Canon){
 						Canon canon = (Canon)actor.getUserObject();
 						if(canon.charged()){
@@ -133,6 +139,8 @@ public class GameScreen extends StageScreen
 					if(shootingCanon == null){
 						targetActor.addAction(new BlinkAction(8f));// XXX
 					}
+					
+					stage.addActor(arrow);
 					
 					AudioEngine.i.playSFXRandom(7, 8, 9, 20, 29);
 					
@@ -155,6 +163,8 @@ public class GameScreen extends StageScreen
 					float force = 3000;
 					
 					ShipPart dragPart = ((ShipPart)targetActor.getUserObject());
+					
+					arrow.remove();
 					
 					if(shootingCanon != null){
 						
@@ -353,6 +363,17 @@ public class GameScreen extends StageScreen
 			}
 		}
 		
+		final float forceRange = 600;
+		
+		{
+			float angle = targetTo.cpy().sub(targetFrom).angle() + 180; // XXX optim cpy
+			arrow.setOrigin(128, 64);
+			arrow.setRotation(angle);
+			arrow.setScaleX(MathUtils.lerp(.5f, 2f, MathUtils.clamp(targetTo.dst(targetFrom) / forceRange, 0, 1)));
+			float dst = -50;
+			arrow.setPosition(targetFrom.x - 128 + MathUtils.cosDeg(angle) * dst, targetFrom.y - 64 + MathUtils.sinDeg(angle) * dst);
+		}
+		
 		
 		// proximity whith ship ...
 		if(ship.leftPart != null && !shark.attacking && !shark.stunt){
@@ -381,7 +402,7 @@ public class GameScreen extends StageScreen
 			targetActor.localToStageCoordinates(targetFrom);
 			
 			// TODO 600 is user distancemax for shots
-			shootVector.set(targetTo).sub(targetFrom).scl(1f / 600f);
+			shootVector.set(targetTo).sub(targetFrom).scl(1f / forceRange);
 			
 			// limit
 			float len = shootVector.len();
