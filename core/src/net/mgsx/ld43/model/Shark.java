@@ -34,6 +34,7 @@ public class Shark {
 	
 	private float preRun = 3f;
 	private float hMotionSpeed;
+	private boolean leave;
 	
 	public Shark(int level) {
 		hMotionSpeed = level * .5f;
@@ -66,6 +67,11 @@ public class Shark {
 		}
 	}
 	
+	public void leave(){
+		
+		leave = true;
+	}
+	
 	public void update(float delta)
 	{
 		preRun -= delta;
@@ -78,7 +84,10 @@ public class Shark {
 		
 		circleShaper.set(imgShark.getX() + 780,  imgShark.getY() + 180, 160);
 
-		if(preRun > 0){
+		if(leave){
+			offsetX += delta * 900;
+		}
+		else if(preRun > 0){
 			offsetX = MathUtils.lerp(offsetX, 0, delta);
 		}
 		else if(sharkLife <= 0){

@@ -59,6 +59,31 @@ public class GameUI extends Table
 		add("Level " + LD43.i().metagame.level).expand().bottom().right().pad(10).getActor().setFontScale(2);
 	}
 	
+	public void displayGameOver(){
+		
+		Label label = new Label("GAME OVER", getSkin());
+		Table t = new Table(getSkin());
+		t.add(label).expand().center();
+		
+		label.setOrigin(Align.center);
+		label.setFontScale(2);
+		
+		t.setFillParent(true);
+		getStage().addActor(t);
+		
+		label.setColor(Color.BLACK);
+		t.getColor().a = 0;
+		
+		t.addAction(Actions.sequence(Actions.alpha(1, 1f), Actions.delay(5), Actions.run(new Runnable() {
+			
+			@Override
+			public void run() {
+				LD43.i().menu();
+			}
+		})));
+		
+	}
+	
 	@Override
 	public void act(float delta) {
 		

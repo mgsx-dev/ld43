@@ -5,8 +5,7 @@ import com.badlogic.gdx.Gdx;
 
 import net.mgsx.ld43.assets.GameAssets;
 import net.mgsx.ld43.model.MetaGame;
-import net.mgsx.ld43.screens.GameScreen;
-import net.mgsx.ld43.screens.PreLevelScreen;
+import net.mgsx.ld43.screens.TitleScreen;
 
 public class LD43 extends Game{
 
@@ -23,17 +22,19 @@ public class LD43 extends Game{
 	public void create() {
 		GameAssets.i = new GameAssets();
 		
-		// setScreen(new PreLevelScreen());
+		setScreen(new TitleScreen());
 		
 		// XXX 
-		setScreen(new GameScreen());
+		// setScreen(new GameScreen());
 	}
 
 	public void menu() {
 		metagame = new MetaGame();
 		
 		// XXX 
-		setScreen(new PreLevelScreen());
+		// setScreen(new PreLevelScreen());
+		
+		setScreen(new TitleScreen());
 	}
 
 }

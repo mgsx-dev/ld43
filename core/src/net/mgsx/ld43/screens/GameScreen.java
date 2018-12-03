@@ -265,13 +265,24 @@ public class GameScreen extends StageScreen
 		}
 		else if(ship.isDead){
 			
+			shark.leave();
+			
 			imgIslandEnd.remove();
+			
+			if(!endTrigger){
+				endTrigger = true;
+				AudioEngine.i.playMusic(2);
+				
+				gameUI.displayGameOver();
+			}
 			
 			worldSpeedFactor -= delta / 5f; // 5 seconds to stop
 			if(worldSpeedFactor < 0){
 				worldSpeedFactor = 0;
 				
-				LD43.i().setScreen(new GameOverScreen());
+				
+				
+				// LD43.i().setScreen(new GameOverScreen());
 			}
 			
 			ship.endFactor = Interpolation.pow2Out.apply(1 - worldSpeedFactor);

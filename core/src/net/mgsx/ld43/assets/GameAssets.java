@@ -38,6 +38,9 @@ public class GameAssets {
 
 
 	public Texture prelevelTexture;
+
+
+	public Texture titleTexture;
 	
 	public GameAssets() 
 	{
@@ -89,6 +92,7 @@ public class GameAssets {
 		regionIslandEnd = new TextureRegion(bgTexture2, 0, 1024 - 128 * 6, 1024, 128 * 6);
 		
 		prelevelTexture = new Texture(Gdx.files.local("../../assets/src/prelevel.png"));
+		titleTexture = new Texture(Gdx.files.local("../../assets/src/titleScreen.png"));
 
 	}
 }

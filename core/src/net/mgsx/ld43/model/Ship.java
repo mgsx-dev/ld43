@@ -52,8 +52,9 @@ public class Ship {
 	public Ship() {
 		Array<TiledMapTileMapObject> mos = new Array<TiledMapTileMapObject>();
 		for(MapLayer layer : GameAssets.i.shipMap.getLayers()){
-			// if(layer.getName().equals("canons")) // XXX
-				mos.addAll(layer.getObjects().getByType(TiledMapTileMapObject.class));
+			
+			if(Rules.DEBUG_SMALL_SHIP && !layer.getName().equals("canons")) continue;
+			mos.addAll(layer.getObjects().getByType(TiledMapTileMapObject.class));
 		}
 		
 		shipGround  = new Group();
@@ -131,13 +132,27 @@ public class Ship {
 			}
 		}
 		
-		floatAction.amp = MathUtils.lerp(3, 0, endFactor);
+		if(isDead){
+			floatAction.amp = MathUtils.lerp(3, 0, endFactor);
+			
+			shipGround.setRotation(MathUtils.lerp(shipGround.getRotation(), -20, endFactor));
+			
+			shipGround.setX(
+					MathUtils.lerp(shipGround.getX(), 700, endFactor));
+			
+			shipGround.setY(MathUtils.lerp(shipGround.getY(), -500, endFactor * endFactor));
+
+		}else{
+			
+			floatAction.amp = MathUtils.lerp(3, 0, endFactor);
+			
+			shipGround.setRotation(MathUtils.lerp(shipGround.getRotation(), 20f, endFactor));
+			
+			shipGround.setPosition(
+					MathUtils.lerp(shipGround.getX(), 700, endFactor), 
+					baseY);
+		}
 		
-		shipGround.setRotation(MathUtils.lerp(shipGround.getRotation(), 20f, endFactor));
-		
-		shipGround.setPosition(
-				MathUtils.lerp(shipGround.getX(), 700, endFactor), 
-				baseY);
 		
 		boolean wasDying = isDead;
 		isDead = true;

@@ -2,6 +2,10 @@ package net.mgsx.ld43.model;
 
 public class Rules {
 
+	public static final boolean DEBUG_SMALL_SHIP = false;
+	
+	
+	
 	public static final int CANON_COUNT = 3;
 	public static final float CANON_CHARGE_TIME = 8;
 	
