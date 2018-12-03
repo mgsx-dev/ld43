@@ -1,5 +1,6 @@
 package net.mgsx.ld43.model;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
@@ -20,6 +21,13 @@ public class Canon extends ShipPart
 	public void update(float delta){
 		
 		frameTime += delta;
+		
+		if(charged()){
+			img.setColor(Color.WHITE);
+			
+		}else{
+			img.setColor(Color.GRAY);
+		}
 		
 		if(!shooting){
 			

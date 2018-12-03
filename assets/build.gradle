@@ -51,8 +51,6 @@ def skinPackingTask = gdxAtlasPack(skinUnpackedDir, "../android/assets/skins/gam
 skinPackingTask.dependsOn += skinUnpackedTasks
 
 
-
-
 task buildAssets(group: 'gdx', dependsOn: [skinPackingTask]){}
 
 
