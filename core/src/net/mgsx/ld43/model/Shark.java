@@ -44,7 +44,7 @@ public class Shark {
 	public Image create(){
 		imgShark = new Image();
 		
-		imgShark = new Image(new TextureRegionDrawable(GameAssets.i.sharkFrames.first()));
+		imgShark = new Image(new TextureRegionDrawable(GameAssets.i.sharkFrames.get(0)));
 		imgShark.setTouchable(Touchable.disabled);
 		imgShark.setOrigin(Align.center);
 		imgShark.addAction(new FloattingAction());
@@ -86,18 +86,16 @@ public class Shark {
 
 		if(leave){
 			offsetX += delta * 900;
-		}
-		else if(preRun > 0){
-			offsetX = MathUtils.lerp(offsetX, 0, delta);
+			setFrame(2);
 		}
 		else if(sharkLife <= 0){
 			imgShark.clearActions();
-			setFrame(2);
+			setFrame(5);
 			offsetX -= delta * 500;
 			offsetY -= delta * 100;
 		}
 		else if(stunt){
-			setFrame(0);
+			setFrame(5);
 			offsetX -= delta * 300;
 			stuntTime -= delta;
 			if(stuntTime < 0){
@@ -114,6 +112,9 @@ public class Shark {
 			}
 			attackAnim();
 			offsetX = MathUtils.lerp(offsetX, -200, delta);
+		}else if(preRun > 0){
+			setFrame(2);
+			offsetX = MathUtils.lerp(offsetX, 0, delta);
 		}else{
 			offsetX = MathUtils.lerp(offsetX, 0, delta);
 			setFrame(2);
@@ -143,7 +144,8 @@ public class Shark {
 	}
 	
 	private void animEatHuman() {
-		setFrame(2); // TODO eat !
+		// setFrame(2); // TODO eat !
+		((TextureRegionDrawable)imgShark.getDrawable()).setRegion(GameAssets.i.sharkAnimationEat.getKeyFrame(sharkTime * .5f, true));
 	}
 
 	private void setFrame(int i){

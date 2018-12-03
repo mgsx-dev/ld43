@@ -46,6 +46,9 @@ public class GameAssets {
 
 
 	public Array<TextureRegion> textsRegions;
+
+
+	public Animation<TextureRegion> sharkAnimationEat;
 	
 	public GameAssets() 
 	{
@@ -58,13 +61,27 @@ public class GameAssets {
 		Texture tilesetTexture = shipMap.getTileSets().getTileSet(0).iterator().next().getTextureRegion().getTexture();
 		
 		Texture sharkTexture = new Texture(Gdx.files.local("../../assets/src/shark.png"));
+		Texture sharkTexture2 = new Texture(Gdx.files.local("../../assets/src/shark2.png"));
 
 		sharkFrames = new Array<TextureRegion>();
 		sharkFrames.add(new TextureRegion(sharkTexture, 0, 1024 - 128 * 3, 1024, 128 * 3));
 		sharkFrames.add(new TextureRegion(sharkTexture, 0, 1024 - 128 * 6, 1024, 128 * 3));
 		sharkFrames.add(new TextureRegion(sharkTexture, 0, 1024 - 128 * 8, 1024, 128 * 2));
 		
-		sharkAnimation = new Animation<TextureRegion>(1, sharkFrames);
+		sharkFrames.add(new TextureRegion(sharkTexture2, 0, 1024 - 128 * 3, 1024, 128 * 3));
+		sharkFrames.add(new TextureRegion(sharkTexture2, 0, 1024 - 128 * 6, 1024, 128 * 3));
+		sharkFrames.add(new TextureRegion(sharkTexture2, 0, 1024 - 128 * 8, 1024, 128 * 2)); // 5 => frappé
+
+		Array<TextureRegion> someFrames = new Array<TextureRegion>();
+		someFrames.add(sharkFrames.get(3));
+		someFrames.add(sharkFrames.get(4));
+		
+		sharkAnimationEat = new Animation<TextureRegion>(1, someFrames);
+		
+		someFrames = new Array<TextureRegion>();
+		someFrames.add(sharkFrames.get(0));
+		someFrames.add(sharkFrames.get(1));
+		sharkAnimation = new Animation<TextureRegion>(1, someFrames);
 		
 		// TextureRegion regionShark = new TextureRegion(sharkTexture, 0, 1024 - 128 * 3, 1024, 128 * 3);
 		

@@ -419,6 +419,7 @@ public class GameScreen extends StageScreen
 	private void spawnText(float x, float y, int index) {
 		Image img = new Image(GameAssets.i.textsRegions.get(index));
 		img.setPosition(x, y);
+		img.setTouchable(Touchable.disabled);
 		stage.addActor(img);
 		
 		img.setOrigin(Align.center);
