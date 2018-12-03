@@ -145,7 +145,7 @@ public class Shark {
 	
 	private void animEatHuman() {
 		// setFrame(2); // TODO eat !
-		((TextureRegionDrawable)imgShark.getDrawable()).setRegion(GameAssets.i.sharkAnimationEat.getKeyFrame(sharkTime * .5f, true));
+		((TextureRegionDrawable)imgShark.getDrawable()).setRegion(GameAssets.i.sharkAnimationEat.getKeyFrame(sharkTime * .75f, true));
 	}
 
 	private void setFrame(int i){
